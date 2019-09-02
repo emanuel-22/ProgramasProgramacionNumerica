@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="7">
+      <Unit0>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="12" Y="9"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="21"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="metodo_biseccion.pas"/>
+        <UnitName Value="Metodo_Biseccion"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="10" Y="7"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\Uni2_EcuacionesNoLineales\Graf_Fx\DiffExpress.pas"/>
+        <TopLine Value="12"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\Uni2_EcuacionesNoLineales\Graf_Fx\GrafFuncion.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="350"/>
+        <CursorPos X="14" Y="350"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\Uni2_EcuacionesNoLineales\Graf_Fx\uFuncion.pas"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="19" Y="770"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\Carpetas_Compañeros\Programación Numerica 2015\GraficadorFunciones\myfunction.pas"/>
+        <UnitName Value="MyFunction"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="15"/>
+        <CursorPos X="28" Y="21"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+    </Units>
+    <JumpHistory Count="1">
+      <Position1>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="9" Column="12"/>
+      </Position1>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe" Date="1154382129"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -vewnhi &quot;-FiC:\Users\Nahuel\Desktop\sistemas de ecuaciones\SEL en Lazarus\lib\i386-win32&quot; &quot;-FuC:\Users\Nahuel\Desktop\sistemas de ecuaciones\SEL en Lazarus\&quot; &quot;-FUC:\Users\Nahuel\Desktop\sistemas de ecuaciones\SEL en Lazarus\lib\i386-win32\&quot; -l project1.lpr"/>
+</CONFIG>

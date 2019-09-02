@@ -1,0 +1,10 @@
+object FrameAbout: TFrameAbout
+  Left = 0
+  Height = 305
+  Top = 0
+  Width = 496
+  TabOrder = 0
+  Visible = False
+  DesignLeft = 955
+  DesignTop = 245
+end

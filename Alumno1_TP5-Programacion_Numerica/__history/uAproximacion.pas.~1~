@@ -1,0 +1,164 @@
+unit uAproximacion;
+
+interface
+
+type
+  tVector = array of double;
+  tMatriz = array of tVector;
+
+  TAproximacion = class
+    private
+      vectorX : tVector;
+      vectorY : tVector;
+      cantPuntos : Integer;
+    public
+      constructor crear();
+      destructor destruir();
+
+      procedure setCantPuntos(puntos: integer);       // INDICAR LA CANTIDAD DE PUNTOS CON LA QUE SE TRABAJARA
+      function getCantPuntos(): Integer;               // DEVUELVE LA CANTIDAD DE PUNTOS
+
+      procedure setVectorX(vectX : tVector);          // CARGAR EL VECTOR CON LOS VALORES DE X
+      function getVectorX(): tVector;                  // DEVUELVE EL VECTOR DE LAS X
+
+      procedure setVectorY( vectY : tVector);          // CARGAR EL VECTOR Y
+      function getVectorY(): tVector;                  // DEVULVE EL VECTOR DE LAS Y
+
+      function getVectorY1(pos : Integer) :double;     // DEVUELVE EL VALOR Y DE LA POSICION POS
+      function getVectorX1(pos: Integer) : double;    // DEVUELVE EL VALOR X DE LA POSICION POS
+
+      procedure extraerCoeficientes(Q : tVector);      // METODO QUE DEVUELVE EN Q LOS COEFICIENTES DE LA PRODUCTORIA PARA LAGRANGE
+      function ruffini_Ad(Q : tVector; a : double; C : tVector): double; // RUFINI ADICIONAL QUE SE UTILIZA EN LAGRANGE
+      function Matriz_Lagrange(): tMatriz;             // METODO QUE CALCULA Y DEVUELVE LA MATRIZ DE LAGRANGE
+      function Colocacion_Lagrange() : tVector;        // METODO DE UTILIZA LA MATRIZ DE LAGRANGE Y DEVUELVE EL POLINOMIO RESULTANTE DE LA COLOCACION
+
+    end;
+
+implementation
+
+constructor TAproximacion.crear;
+begin
+  cantPuntos := 0;
+end;
+
+destructor TAproximacion.destruir();
+begin
+  inherited Destroy;
+end;
+
+procedure TAproximacion.setCantPuntos(puntos : integer);
+begin
+  self.cantPuntos := puntos;
+end;
+
+function TAproximacion.getCantPuntos(): Integer;
+begin
+  result := self.CantPuntos;
+end;
+
+procedure TAproximacion.setVectorX(vectX: tVector);
+begin
+  SetLength(self.vectorX , getCantPuntos());
+  self.vectorX := vectX;
+end;
+
+function TAproximacion.getVectorX() : tVector;
+begin
+  result := self.vectorX;
+end;
+
+procedure TAproximacion.setVectorY( vectY : tVector);
+begin
+  SetLength(self.vectorY, getCantPuntos);
+  self.vectorY := vectY;
+end;
+
+function TAproximacion.getVectorY(): tVector;
+begin
+  result := self.vectorY;
+end;
+
+function TAproximacion.getVectorX1( pos: Integer) : double;
+begin
+  result := self.vectorX[pos];
+end;
+
+function TAproximacion.getVectorY1(pos : integer) :double;
+begin
+  result := self.vectorY[pos];
+end;
+
+procedure TAproximacion.extraerCoeficientes(Q : tVector);
+var
+  i, j : Integer;
+begin
+  Q[0] := - getVectorX1(0);
+  for i:= 1 to getCantPuntos() do
+    Q[i] := 1;
+  for i := 1 to getCantPuntos()-1 do begin
+    for j := i downto 1 do
+      Q[j] := Q[j-1] - Q[j] * getVectorX1(i);
+    Q[0] := -Q[0] * getVectorX1(i);
+  end;
+end;
+
+function TAproximacion.ruffini_Ad(Q : tVector; a : double; C : tVector): double;
+var
+  dQ: double;
+  i: integer;
+begin
+  dQ := 0;
+  C[getCantPuntos()] := Q[getCantPuntos()];
+  for i:= getCantPuntos()-1 downto 0 do begin
+    dQ := C[i+1] + a * dQ;
+    C[i] := Q[i] + a * C[i+1];
+  end;
+  result := dQ;
+end;
+
+function TAproximacion.Matriz_Lagrange(): tMatriz;
+var
+  dQ : double;
+  i, j : Integer;
+  Q, C : tVector;
+  L : tMatriz;
+begin
+
+  SetLength(Q, getCantPuntos() +1);
+  SetLength(C, getCantPuntos() +1);
+  SetLength(L, getCantPuntos(), getCantPuntos());
+  extraerCoeficientes(Q);
+
+  for i:= 0 to getCantPuntos()-1 do begin
+    dQ := ruffini_Ad(Q, getVectorX1(i), C);
+    for j:= 0 to getCantPuntos()-1 do
+      L[j, i] := C[j+1]/dQ;
+    end;
+
+  SetLength(Q, 0);
+  SetLength(C, 0);
+  result := L;
+end;
+
+function TAproximacion.Colocacion_Lagrange() : tVector;
+var
+  i, j : integer;
+  pol : tVector;
+  aux : double;
+  G : tMatriz;
+begin
+  SetLength(pol, getCantPuntos());
+  SetLength(G, getCantPuntos(), getCantPuntos());
+  G := Matriz_Lagrange();
+  for i:=0 to getCantPuntos()-1 do begin
+    aux :=0;
+    for j:=0 to getCantPuntos()-1 do
+      aux:= aux + G[i][j] * getVectorY1(j);
+    pol[i] := aux;
+  end;
+
+  SetLength(G,0,0);
+  result := pol;
+end;
+
+end.

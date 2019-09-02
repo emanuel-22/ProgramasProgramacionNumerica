@@ -1,0 +1,45 @@
+unit uInterfazResultados;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, uSistemasLineales;
+
+type
+  TformResultados = class(TForm)
+    memoResultados: TMemo;
+    procedure FormClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure mostrarSolucion(solucion: tVector);
+  end;
+
+var
+  formResultados: TformResultados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TformResultados.FormClick(Sender: TObject);
+begin
+  memoResultados.Lines.Clear; // Borrar datos del memo
+end;
+
+procedure TformResultados.mostrarSolucion(solucion: tVector);
+var
+  i: integer;
+  cad: string;
+begin
+  cad := '';
+  memoResultados.Lines.Add('Solucion del sistema: ');
+  for i := 0 to High(solucion) do begin
+    cad := concat('X', IntToStr(i), ' = ', FloatToStr(solucion[i]));
+    memoResultados.Lines.Add(cad);
+  end;
+end;
+
+end.

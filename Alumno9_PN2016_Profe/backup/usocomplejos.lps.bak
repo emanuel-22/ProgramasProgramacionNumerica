@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="usocomplejos.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="6"/>
+        <CursorPos X="11" Y="25"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="complejos.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="62"/>
+        <CursorPos X="38" Y="63"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit1>
+    </Units>
+    <JumpHistory Count="1">
+      <Position1>
+        <Filename Value="usocomplejos.lpr"/>
+        <Caret Line="18" Column="20" TopLine="5"/>
+      </Position1>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

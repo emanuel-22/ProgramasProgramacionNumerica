@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="7">
+      <Unit0>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="project1"/>
+        <UsageCount Value="23"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="unitone.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unitone"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="13" Y="1"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="G:\Graf_Fx\uFuncion.pas"/>
+        <UnitName Value="uFuncion"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="58"/>
+        <CursorPos X="12" Y="79"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\funcion\f(x)\MyFunc.pas"/>
+        <UnitName Value="MyFunc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="45" Y="18"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="MyFunc.pas"/>
+        <UnitName Value="MyFunc"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="24" Y="1"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="DiffExpress.pas"/>
+        <UnitName Value="DiffExpress"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="74"/>
+        <CursorPos X="1" Y="95"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="FUNCION.PAS"/>
+        <UnitName Value="Funcion"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3"/>
+        <CursorPos X="11" Y="6"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit6>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="MyFunc.pas"/>
+        <Line Value="2"/>
+      </Item1>
+    </BreakPoints>
+  </Debugging>
+  <EditorMacros Count="0"/>
+</CONFIG>

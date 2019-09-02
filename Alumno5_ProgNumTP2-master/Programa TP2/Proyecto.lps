@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="Proyecto.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="36"/>
+        <CursorPos X="58" Y="53"/>
+        <UsageCount Value="85"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="DiffExpress.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="60"/>
+        <CursorPos X="62" Y="79"/>
+        <UsageCount Value="85"/>
+        <Bookmarks Count="1">
+          <Item0 X="15" Y="64" ID="3"/>
+        </Bookmarks>
+      </Unit1>
+      <Unit2>
+        <Filename Value="FUNCION.PAS"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Funcion"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="40" Y="27"/>
+        <UsageCount Value="85"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="MyFunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <CursorPos X="65" Y="53"/>
+        <UsageCount Value="85"/>
+        <Bookmarks Count="1">
+          <Item0 X="64" Y="41" ID="1"/>
+        </Bookmarks>
+      </Unit3>
+      <Unit4>
+        <Filename Value="unitone.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unitone"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="15"/>
+        <CursorPos X="37" Y="38"/>
+        <UsageCount Value="46"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\unitone.pas"/>
+        <UnitName Value="Unitone"/>
+        <TopLine Value="140"/>
+        <CursorPos X="75" Y="151"/>
+        <UsageCount Value="58"/>
+      </Unit5>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="unitone.pas"/>
+        <Line Value="1"/>
+      </Item1>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>

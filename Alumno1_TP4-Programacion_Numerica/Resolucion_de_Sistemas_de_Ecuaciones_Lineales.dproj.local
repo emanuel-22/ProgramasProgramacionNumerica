@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/10/14 03:47:28.775.pas,C:\Users\PC-Enzo\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\PC-Enzo\Desktop\Interfaz Sistemas\uInterfazSistemas.pas</Transaction>
+    <Transaction>2015/10/14 03:47:28.775.dfm,C:\Users\PC-Enzo\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\PC-Enzo\Desktop\Interfaz Sistemas\uInterfazSistemas.dfm</Transaction>
+    <Transaction>2015/10/14 03:47:51.073.dproj,C:\Users\PC-Enzo\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\PC-Enzo\Desktop\Interfaz Sistemas\Project1.dproj</Transaction>
+    <Transaction>2015/11/09 02:28:55.319.pas,C:\Users\Enzo\Desktop\Interfaz Sistemas\Unit1.pas=C:\Users\Enzo\Desktop\Interfaz Sistemas\uMostrarResultados.pas</Transaction>
+    <Transaction>2015/11/09 02:28:55.319.dfm,C:\Users\Enzo\Desktop\Interfaz Sistemas\Unit1.dfm=C:\Users\Enzo\Desktop\Interfaz Sistemas\uMostrarResultados.dfm</Transaction>
+    <Transaction>2015/11/09 02:29:08.774.pas,C:\Users\Enzo\Desktop\Interfaz Sistemas\uMostrarResultados.pas=C:\Users\Enzo\Desktop\Interfaz Sistemas\uInterfazResultados.pas</Transaction>
+    <Transaction>2015/11/09 02:29:08.774.dfm,C:\Users\Enzo\Desktop\Interfaz Sistemas\uMostrarResultados.dfm=C:\Users\Enzo\Desktop\Interfaz Sistemas\uInterfazResultados.dfm</Transaction>
+    <Transaction>2015/11/10 11:18:26.579.dproj,C:\Users\Enzo\Desktop\TP4-Programacion_Numerica\Project1.dproj=C:\Users\Enzo\Desktop\TP4-Programacion_Numerica\Resolucion_de_Sistemas_de_Ecuaciones_Lineales.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="Proyecto.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="86" Y="102"/>
+        <UsageCount Value="63"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="DiffExpress.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="7"/>
+        <CursorPos X="3" Y="17"/>
+        <UsageCount Value="63"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="FUNCION.PAS"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Funcion"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="127"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="63"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="MyFunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="29"/>
+        <CursorPos X="49" Y="49"/>
+        <UsageCount Value="63"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="unitone.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unitone"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="79" Y="12"/>
+        <UsageCount Value="24"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\GraficadorFunciones\myfunction.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MyFunction"/>
+        <CursorPos X="5" Y="78"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="E:\programa\unitone.pas"/>
+        <UnitName Value="Unitone"/>
+        <TopLine Value="140"/>
+        <CursorPos X="75" Y="151"/>
+        <UsageCount Value="59"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\GraficadorFunciones\diffexpress.pas"/>
+        <UnitName Value="DiffExpress"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="40" Y="20"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\Descargas\Graf_Fx\GrafFuncion.pas"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\Descargas\Graf_Fx\uFuncion.pas"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="24" Y="29"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit9>
+    </Units>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="..\..\..\GraficadorFunciones\myfunction.pas"/>
+        <Caret Line="62" Column="14" TopLine="43"/>
+      </Position1>
+      <Position2>
+        <Filename Value="DiffExpress.pas"/>
+        <Caret Line="21" Column="34"/>
+      </Position2>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

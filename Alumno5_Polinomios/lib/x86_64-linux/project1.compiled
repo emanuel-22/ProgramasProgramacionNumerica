@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1397983219"/>
+  <Params Value=" -MObjFPC -Scghi -Cg -O1 -g -gl -l -vewnhibq &quot;-Fi/home/diego_palacio/Programación Numerica 2015/Trabajos Prácticos/Nueva carpeta/TP 3 Polinomios/programabai/lib/x86_64-linux&quot; &quot;-Fu/home/diego_palacio/Programación Numerica 2015/Trabajos Prácticos/Nueva carpeta/TP 3 Polinomios/programabai/&quot; &quot;-FU/home/diego_palacio/Programación Numerica 2015/Trabajos Prácticos/Nueva carpeta/TP 3 Polinomios/programabai/lib/x86_64-linux/&quot; project1.lpr"/>
+</CONFIG>

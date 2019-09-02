@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\3.0.0\bin\i386-win32\fpc.exe" Date="1213097031"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -l -vewnhibq &quot;-FiD:\Barboza_Hector_UNSa\Programacion _Numerica\PN2016\lib\i386-win32&quot; &quot;-FuD:\Barboza_Hector_UNSa\Programacion _Numerica\PN2016\&quot; &quot;-FUD:\Barboza_Hector_UNSa\Programacion _Numerica\PN2016\lib\i386-win32\&quot; usocomplejos.lpr"/>
+</CONFIG>

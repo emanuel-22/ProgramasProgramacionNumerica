@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/11/10 14:44:57.917.pas,C:\Users\Enzo\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Aproximacion_de_Funciones.pas</Transaction>
+    <Transaction>2015/11/10 14:44:57.917.dfm,C:\Users\Enzo\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Aproximacion_de_Funciones.dfm</Transaction>
+    <Transaction>2015/11/10 14:45:39.073.dproj,C:\Users\Enzo\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Project1.dproj</Transaction>
+    <Transaction>2015/11/10 14:45:48.660.pas,C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Aproximacion_de_Funciones.pas=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\uInterfaz.pas</Transaction>
+    <Transaction>2015/11/10 14:45:48.660.dfm,C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Aproximacion_de_Funciones.dfm=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\uInterfaz.dfm</Transaction>
+    <Transaction>2015/11/10 14:46:00.342.dproj,C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Project1.dproj=C:\Users\Enzo\Desktop\TP5-Programacion_Numerica\Aproximacion_de_Funciones.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

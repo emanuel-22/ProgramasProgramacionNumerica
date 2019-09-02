@@ -1,0 +1,1022 @@
+unit uSistemasLineales;
+
+{
+  Integrantes del grupo:
+    - Enzo Geron
+    - Dario Ledesma
+    - Jorge Mamani
+    - Carlos Chañe
+    - Juan Morales
+    - Fabian Salva
+}
+
+interface
+
+uses
+  SysUtils, dialogs;
+
+type
+
+  // Definicion matriz dinamica
+  tVector = array of double;
+  tMatriz = array of tVector;
+
+  tSistema = class(TObject)
+    private
+      matriz: tMatriz; // Matriz
+      vIndependiente: tVector; // Vector de terminos independientes
+      f: integer; // Cantidad de filas
+      c: integer; // Cantidad de columnas
+
+      procedure switchRow(i, j: integer);
+      procedure switchColumn(i, j: integer);
+
+      function det(A: tMatriz; orden: integer): double;
+
+    public
+      constructor create();
+      destructor destroy();
+
+      // Acceso a la matriz
+      procedure setMatriz(mtz: tMatriz);
+      function getMatriz(): tMatriz;
+      // Acceso al vector de terminos independiente
+      procedure setVIndependiente(ind: tVector);
+      function getVIndependiente(): tVector;
+
+      // Acceso a filas y columnas
+      procedure setF(f: integer);
+      function getF(): integer;
+      procedure setC(c: integer);
+      function getC(): integer;
+
+      procedure mostrar();
+      procedure mostrarVIndependiente();
+      procedure mostrarMatrizAmpliada();
+
+      // Norma matrices
+      function NormaMatriz1():double;
+      function NormaMatriz2():double;
+      function NormaMatriz3():double;
+
+      // Pivoteo Simple - Intercambio de filas solo si el pivote es 0
+      procedure pivoteoSimple(i: integer);
+
+      // Pivoteo Parcial - Intercambio de filas por el maximo elemento que esta por debajo del pivote de la diagonal
+      procedure pivoteoParcial(i: integer);
+
+      // Pivoteo Total - Intercambio de filas y columnas por el maximo elemento de toda la submatriz donde se encuentra el pivote
+      procedure pivoteoTotal(i: integer);
+
+      function sust_Regresiva(mtz: tMatriz): Tvector; // Resuelve la matriz triangular superior, devuelve el vector solucion
+      function triangular_Superior(mtz:tMatriz): tMatriz;
+
+      // -------------------- Metodos Directos ------------------------
+      // Gauss
+      function GaussPS(): tVector; // con pivoteo simple
+      function GaussPP(): tVector; // con pivoteo parcial
+      function GaussPT(): tVector; // con pivoteo total
+
+      // Gauss - Jordan
+      function Jordan(): tMatriz; // devuelve la matriz ampliada
+      function JordanResolucion(): tVector; // devuelve el X utilizando la solucion para un Sistema Diagonal
+      function Gauss_Jordan (): tVector;  // devuelve el X usando sust_Superior
+
+      // Crout
+      function Crout_L1U(): tMatriz;  // devuelve la matriz ampliada
+      function Crout(): tVector;  // devuelve el X usando sust_Superior
+
+      // Cholesky
+      function CholeskyUtU(): tMatriz;
+      // ----------------------------------------------------------------
+
+      function NormaV1(v:tVector):double;
+
+      // -------------------- Metodos Indirectos ------------------------
+      // Gauss-Seidel
+      function Gauss_Seidel(X: tVector; error: double) :tVector;
+
+      // Jacobi
+      function Jacobi(X : tVector; error : double): tVector;
+
+      // Mejoramiento Iterativo
+      function MejoramientoIterativo(X: tVector; error: double) : tVector;
+
+      // Relajacion
+      function SOR(X : tVector; error, w: double): tVector;
+      // ----------------------------------------------------------------
+
+      // ----------------- Metodos de Verificacion ----------------------
+      function esSimetrica(): boolean; //Retorna T si es simetrica, sino F
+      function esDefinidaPos(): boolean; //Retorna T si es definida positiva, sino F
+      function esDiagonalmenteDom(): boolean; //Retorna T si es diagonalmente dominante, sino F
+      function determinante(): double; //Retorna un double que corresponde al determinante de la matriz
+      // ----------------------------------------------------------------
+    end;
+
+implementation
+
+// Inicializa los Atributos
+constructor tSistema.create();
+begin
+  SetLength(matriz, 0, 0);
+  SetLength(vIndependiente, 0);
+  setF(-1);
+  setC(-1);
+end;
+
+destructor tSistema.destroy();
+begin
+  inherited destroy;
+end;
+
+procedure tSistema.setMatriz(mtz: tMatriz);
+var
+  fila, columna: byte;
+begin
+  setF(Length(mtz));
+  setC(Length(mtz));
+  setLength(matriz, Length(mtz), Length(mtz));
+  for fila := 0 to (getF() - 1) do begin
+    for columna := 0 to (getC() - 1) do begin
+      matriz[fila][columna] := mtz[fila][columna];
+    end;
+  end;
+end;
+
+function tSistema.getMatriz(): tMatriz;
+begin
+  result := matriz;
+end;
+
+procedure tSistema.setVIndependiente(ind: tVector);
+var
+  i: integer;
+begin
+  setLength(vIndependiente, Length(ind));
+  for i := 0 to high(ind) do begin
+    vIndependiente[i] := ind[i];
+  end;
+end;
+
+function tSistema.getVIndependiente(): tVector;
+begin
+  result := vIndependiente;
+end;
+
+procedure tSistema.setF(f: integer);
+begin
+  self.f := f;
+end;
+
+function tSistema.getF(): integer;
+begin
+  result := f;
+end;
+
+procedure tSistema.setC(c: integer);
+begin
+  self.c := c;
+end;
+
+function tSistema.getC(): integer;
+begin
+  result := c;
+end;
+
+procedure tSistema.mostrar();
+var
+  i, j: integer;
+begin
+  for i := 0 to (getF() - 1) do begin
+    for j := 0 to (getC() - 1) do begin
+      write(matriz[i][j]:2:2, ' ');
+    end;
+    writeln('');
+  end;
+end;
+
+procedure tSistema.mostrarVIndependiente();
+var
+  i: integer;
+begin
+  for i := 0 to high(getVIndependiente()) do begin
+    write(vIndependiente[i]:2:2, ' ');
+  end;
+end;
+
+// Devuelve una nueva TMatriz
+function matrizAmpliada(mtz: tMatriz; vInd: tVector): tMatriz;
+var
+  matrizAux: tMatriz;
+  i, j: integer;
+begin
+  setLength(matrizAux, Length(mtz), Length(mtz) + 1); // Agrega la columna de coeficientes
+  for i := 0 to High(mtz) do begin // Copia datos de matriz original
+    for j := 0 to High(mtz) do begin
+      matrizAux[i][j] := mtz[i][j];
+    end;
+  end;
+  for j := 0 to High(mtz) do begin // Asigna datos de vector independiente en la nueva columna
+    matrizAux[j][High(mtz) + 1] := vInd[j];
+  end;
+  result := matrizAux;
+end;
+
+procedure tSistema.mostrarMatrizAmpliada();
+var
+  matrizA: tMatriz;
+  i, j: integer;
+begin
+  matrizA := matrizAmpliada(getMatriz(), getVIndependiente());
+  for i := 0 to High(matrizA) do begin
+    for j := 0 to Length(matrizA) do begin
+      write(matrizA[i][j]:2:2, ' ');
+    end;
+    writeln('');
+  end;
+end;
+
+function NormaVector1(V:tVector):double;
+var
+  norma:double;
+  i:integer;
+begin
+  norma:=0;
+  for i := 0 to high(V) do
+    norma:=norma+abs(V[i]);
+  result:=norma;
+end;
+
+function NormaVector2(V:tVector):double;
+var
+  norma:double;
+  i:integer;
+begin
+  norma:=0;
+  for i := 0 to high(V) do
+    norma:=norma+sqr(V[i]);
+  result:=sqrt(norma);
+end;
+
+function NormaVector3(V:tVector):double;
+var
+  norma:double;
+  i:integer;
+begin
+  norma:=V[0];
+  for i := 1 to high(V) do
+    if V[i]>norma then
+      norma:=V[i];
+  result:=norma;
+end;
+
+function tSistema.NormaMatriz1():double;
+var
+  norma,suma:double;
+  i,j:integer;
+begin
+  norma:=0;
+  for j := 0 to getC()-1 do
+    begin
+      suma:=0;
+      for i := 0 to getF()-1 do
+        suma:=suma+abs(matriz[i,j]);
+      if (suma>norma) then
+        norma:=suma;
+    end;
+  result:=norma;
+end;
+
+function tSistema.NormaMatriz2():double;
+var
+  norma,suma:double;
+  i:integer;
+begin
+  norma:=NormaVector1(matriz[0]);
+  for i := 1 to getF()-1 do
+    begin
+      suma:=NormaVector1(matriz[i]);
+      if suma>norma then
+        norma:=suma;
+    end;
+  result:=norma;
+end;
+
+function tSistema.NormaMatriz3():double;
+var
+  norma:double;
+  i:integer;
+begin
+  norma:=0;
+  for i := 0 to getF()-1 do
+     norma:=norma+sqr(normaVector2(matriz[i]));
+  result:=sqrt(norma);
+end;
+
+// Intercambio fila i con j de la matriz ampliada, modifica el atributo matriz y vIndependiente
+procedure tSistema.switchRow(i, j: integer);
+var
+  auxVector: tVector;
+  auxDouble: double;
+begin
+  auxVector := matriz[i];
+  matriz[i] := matriz[j];
+  matriz[j] := auxVector;
+  // Sobrescribo elementos del vector independiente
+  auxDouble := vIndependiente[i];
+  vIndependiente[i] := vIndependiente[j];
+  vIndependiente[j] := auxDouble;
+end;
+
+procedure tSistema.switchColumn(i, j: integer);
+var
+  auxElementos: tVector;
+  k: integer;
+begin
+  setLength(auxElementos, getF());
+  // Copio todos los elementos de la columna i en el vector auxiliar
+  for k := 0 to (getF() - 1) do begin
+    auxElementos[k] := matriz[k][i];
+  end;
+  // Copio todos los elementos de la columna j en la columna i
+  for k := 0 to (getF() - 1) do begin
+    matriz[k][i] := matriz[k][j];
+  end;
+  // Copio todos los elementos del vector auxiliar en la columna j
+  for k := 0 to (getF() - 1) do begin
+    matriz[k][j] := auxElementos[k];
+  end;
+
+end;
+
+procedure tSistema.pivoteoSimple(i: integer);
+var
+  j: integer;
+begin
+  if (matriz[i][i] = 0) then begin
+    j := i + 1; // Me muevo entre las filas
+    while ((matriz[j][i] = 0) and (j <= getF() - 1)) do begin // Mientras los siguientes tambien sean 0
+      j := j + 1;
+    end;
+    if ((j > i) and (j <= getF() - 1)) then begin // Se produce el cambio de filas
+      switchRow(i, j);
+    end;
+  end;
+end;
+
+procedure tSistema.pivoteoParcial(i: integer);
+var
+  j: integer;
+  k: integer;
+  max: double;
+begin
+  k := i;
+  max := Abs(matriz[i][i]); // El maximo es el de la diagonal
+  for j := (i + 1) to (getF() - 1) do begin // Me muevo por las demas filas para un elemento > que el de la diagonal
+    if (Abs(matriz[j][i]) > max) then begin
+      max := Abs(matriz[j][i]);
+      k := j; // k posicion donde se encuentra el nuevo maximo de la columna
+    end;
+  end;
+  if (Abs(matriz[i][i]) <> max) then begin
+    switchRow(i, k);
+  end;
+end;
+
+procedure tSistema.pivoteoTotal(i: integer);
+var
+  max: double;
+  maxFila, maxColumna: integer;
+  j, k: integer;
+begin
+  maxFila := i;
+  maxColumna := i;
+  max := Abs(matriz[i][i]);
+  // Buscar el mayor de la submatriz donde se encuentra el pivote
+  for k := i to (getF() - 1) do begin
+    for j := i to (getC() - 1) do begin
+      if (Abs(matriz[k][j]) > max) then begin
+        maxFila := k;
+        maxColumna := j;
+        max := Abs(matriz[k][j]);
+      end;
+    end;
+  end;
+
+  if (maxFila <> i) then begin
+    switchRow(i, maxFila);
+  end;
+
+  if (maxColumna <> i) then begin
+    switchColumn(i, maxColumna);
+  end;
+
+end;
+
+//funciona pero la matriz q viene por parametro tiene q ser la matriz AMPLIADA
+function tSistema.sust_Regresiva(mtz: tMatriz):Tvector; //cuando nos qda una matriz triangular superior
+var
+  x:tVector;
+  fila,columna:integer;
+  acumulador:double;
+begin //tengo a mtz como la matriz escalonada pro el vector independiente esta en la ultima columna.
+  setLength(x,Length(mtz));
+
+  x[High(mtz)]:=mtz[High(mtz)][High(mtz)+1] / mtz[High(mtz)][High(mtz)]; // como es una triangular sup el ultimo elemento es el x[ultimo]
+
+  for fila:= high(mtz)-1 downto 0 do
+  begin
+      acumulador:=0;
+      for columna:= High(mtz) downto fila+1 do
+      begin
+          acumulador:=acumulador+ mtz[fila][columna]* x[columna]; //suma los coeficientes con los x ya obtenidos
+      end;
+      acumulador:= mtz[fila][High(mtz)+1] - acumulador  ; //pasa de termino y suma con el independiente.
+      acumulador:= acumulador / mtz[fila][fila];
+
+      if acumulador = 0 then        // Este if lo puse por que sino me salia como resultado " -0 "
+        acumulador := 0;
+
+      x[fila]:= acumulador;  //asigna
+  end;
+  result := x;
+end;
+
+function tSistema.triangular_Superior(mtz:tMatriz): tMatriz;  // Le tienen que pasar una matriz ampliada
+var
+  U : tMatriz;
+  fila, columna: byte;
+begin
+  setLength(U, Length(mtz), Length(mtz)+1);  //Crea el tamaño de la matriz U (N x N+1)
+
+  for fila := 0 to (getF() - 1) do
+  begin
+    for columna := 0 to (getC()) do
+    begin
+      if fila > columna then      // con esta pregunta coloco 0 debajo de la diagonal
+         U[fila][columna] := 0
+      else                        // si i en menor o igual j solo copio el elemnto a la nueva matriz
+        U[fila][columna] := mtz[fila][columna];
+    end;
+  end;
+  result := U;
+end;
+
+function tSistema.GaussPS(): tVector;
+var
+  i, j, k : integer;
+  m : double;
+  G : tSistema;
+  X : tVector;
+  Aux: tMatriz;
+begin
+  G := tSistema.create();
+  G.setMatriz(getMatriz());
+  G.setVIndependiente(getVIndependiente());
+  setLength(Aux,Length(getMatriz()),Length(getMatriz())+1 );
+  SetLength(X,Length(getVIndependiente()));
+  for k:=0 to High(getMatriz())-1 do begin
+    G.pivoteoSimple(k);
+    for i:= k+1 to High(getMatriz()) do begin
+      Aux := matrizAmpliada(G.getMatriz(), G.getVIndependiente());
+      m := Aux[i][k] / Aux[k][k];
+      Aux[1,k] := 0;
+      for j := k+1 to High(getMatriz()) + 1 do
+        Aux[i][j] := Aux[i][j] - m*Aux[k,j];
+    end;
+  end;
+  X := sust_Regresiva(Aux);
+  // Liberar memoria
+  G.destroy();
+  SetLength(Aux, 0, 0);
+  result := X;
+end;
+
+function tSistema.GaussPP(): tVector;
+var
+  i, j, k : integer;
+  m : double;
+  G : tSistema;
+  X : tVector;
+  Aux: tMatriz;
+begin
+  //G := tSistema.create(getMatriz());         // CREAMOS UN SISTEMA AUXILIAR PARA NO PERDER LOS DATOS ORIGINALES
+  G := tSistema.create();
+  G.setMatriz(getMatriz());
+  G.setVIndependiente(getVIndependiente());
+  setLength(Aux,Length(getMatriz()),Length(getMatriz())+1 );  //Crea el tamaño de la matriz G (N x N+1)
+  SetLength(X,Length(getVIndependiente()));   // UNA MATRIZ DONDE SE COPIA LA MATRIZ DEL SISTEMA AUXILIAR
+  for k:=0 to High(getMatriz())-1 do begin
+    G.pivoteoParcial(k);   // PODRIA CAMBIARSE POR CUALQUIER PIVOTEO
+    //G.mostrar();
+    for i:= k+1 to High(getMatriz()) do begin
+      Aux := matrizAmpliada(G.getMatriz(), G.getVIndependiente());  //Matriz ampliada [A/b]    // SE DEBE ACTUALIZAR EN CADA ITERACION
+      m := Aux[i][k] / Aux[k][k];
+      Aux[1,k] := 0;
+      for j := k+1 to High(getMatriz()) + 1 do
+        Aux[i][j] := Aux[i][j] - m*Aux[k,j];
+    end;
+  end;
+  X := sust_Regresiva(Aux);
+  // Liberar memoria
+  G.destroy();
+  SetLength(Aux, 0, 0);
+  result := X;
+end;
+
+function tSistema.GaussPT(): tVector;
+var
+  i, j, k : integer;
+  m : double;
+  G : tSistema;
+  X : tVector;
+  Aux: tMatriz;
+begin
+  //G := tSistema.create(getMatriz());         // CREAMOS UN SISTEMA AUXILIAR PARA NO PERDER LOS DATOS ORIGINALES
+  G := tSistema.create();
+  G.setMatriz(getMatriz());
+  G.setVIndependiente(getVIndependiente());
+  setLength(Aux,Length(getMatriz()),Length(getMatriz())+1 );  //Crea el tamaño de la matriz G (N x N+1)
+  SetLength(X,Length(getVIndependiente()));   // UNA MATRIZ DONDE SE COPIA LA MATRIZ DEL SISTEMA AUXILIAR
+  for k:=0 to High(getMatriz())-1 do begin
+    G.pivoteoTotal(k);   // PODRIA CAMBIARSE POR CUALQUIER PIVOTEO
+    //G.mostrar();
+    for i:= k+1 to High(getMatriz()) do begin
+      Aux := matrizAmpliada(G.getMatriz(), G.getVIndependiente());  //Matriz ampliada [A/b]    // SE DEBE ACTUALIZAR EN CADA ITERACION
+      m := Aux[i][k] / Aux[k][k];
+      Aux[1,k] := 0;
+      for j := k+1 to High(getMatriz()) + 1 do
+        Aux[i][j] := Aux[i][j] - m*Aux[k,j];
+    end;
+  end;
+  X := sust_Regresiva(Aux);
+  // Liberar memoria
+  G.destroy();
+  SetLength(Aux, 0, 0);
+  result := X;
+end;
+
+function tSistema.Jordan (): tMatriz;
+var
+  G: tMatriz;
+  k,i,j: integer;
+  m: double;
+begin
+  setLength(G,Length(getMatriz()),Length(getMatriz())+1 );  //Crea el tamaño de la matriz G (N x N+1)
+  G := matrizAmpliada(getMatriz(), getVIndependiente());  //Matriz ampliada [A/b]
+
+  for K:=0 to High(getMatriz()) do
+  begin
+      for i:=0 to High(getMatriz()) do
+      begin
+          if i<>k then
+          begin
+              m:= G[i][k] / G[k][k];
+              for j:=k to High(getMatriz())+1 do
+                G[i][j]:= G[i][j] - m * G[k][j];
+          end;
+
+      end;
+
+  end;
+
+  result:= G;   // devuelve la matriz ampliada
+
+end;
+
+function tSistema.Gauss_Jordan (): tVector;
+begin
+    result:= sust_Regresiva( Jordan ()) ;  // uso sust_Regresiva para calcular la triangular superior,, pero para mas eficiencia ya queda una diagonal seria armar una funcion que sea para calcular el Sistema Diagonal
+end;
+
+// DADA UNA MATRIZ DIAGONAL AMPLIADA REALIZA EL DESPEJE DE LAS INCOGNITAS
+function SistemaDiagonal(G : tMatriz) : tVector;
+var
+  x : tVector;
+  i : integer;
+begin
+  SetLength(x,High(G));
+  for i:=0 to High(G) do begin
+    x[i] := G[i,High(G)+1]/G[i][i];
+  end;
+  result := x;
+end;
+
+// RESUELVE EL SISTEMA POR JORDAN
+function tSistema.JordanResolucion(): tVector;
+var
+  x : tVector;
+begin
+  x := SistemaDiagonal(Jordan());
+end;
+
+function tSistema.Crout_L1U () : tMatriz;
+var
+  G: tMatriz;
+  k,i,j,p: integer;
+  sumatoria:double;
+begin
+  setLength(G,Length(getMatriz()),Length(getMatriz())+1 );  //Crea el tamaño de la matriz G (N x N+1)
+  G := matrizAmpliada(getMatriz(), getVIndependiente());  //Matriz ampliada [A/b]
+
+  for k:=0 to High(getMatriz()) do
+  begin
+      for j:=k to  High(getMatriz()) + 1 do       // calcula los valores de las filas correspondiente
+      begin
+          sumatoria:=0;
+          for p:= 0 to (k-1) do
+             sumatoria:= sumatoria + G[k][p] * G[p][j];
+          G[k][j]:= G[k][j] - sumatoria;
+      end;
+
+      for i:=k+1 to  High(getMatriz()) do        // calcula los valores de las columnas  correspondientes
+      begin
+          sumatoria:=0;
+          for p:= 0 to (k-1) do
+             sumatoria:= sumatoria + G[i][p] * G[p][k] ;
+          G[i][k]:= ( G[i][k] - sumatoria ) / G[k][k] ;     // se divide por el pivot el valor de esa posicion encontrada
+      end;
+
+  end;
+  result:= G;
+
+end;
+
+function tSistema.Crout(): tVector;
+begin
+  result := sust_Regresiva(Crout_L1U()); // llamo a Crout_L1U realiza el procedimiento y luego trabajo sobre la triangular superior para en contrar X
+end;
+
+function tSistema.CHoleskyUtU(): tMatriz;
+var
+
+ U : tMatriz;
+ k, i, j: integer;
+ sumatoria : double;
+ X : tVector;
+begin
+  setLength(U,Length(getMatriz()),Length(getMatriz())+1 );  //Crea el tamaño de la matriz G (N x N+1)
+  U := matrizAmpliada(getMatriz(), getVIndependiente());  //Matriz ampliada [A/b]
+  SetLength(X,Length(getVIndependiente()));
+
+end;
+
+//CALCULO DE LA NORMA 1
+function Tsistema.NormaV1(v: tVector):double;
+var
+  i:integer;
+  s:double;
+begin
+  s:=0;
+  for i:=Low(v) to High(v) do
+    s:=s+abs(v[i]);
+  NormaV1 :=  s;
+end;
+
+// CALCULO DE LA NORMA INFINITA
+function NormaVinf(vector:tVector):double;
+var
+  dMayor,dAux:double;
+  i:integer;
+begin
+  if vector[0] < 0 then
+  dMayor:=vector[0]*(-1)
+  else
+  dMayor:=vector[0];
+  for i:=1 to high(vector) do begin
+  if vector[i]< 0 then
+  dAux:= vector[i] *(-1)
+  else
+  dAux:=vector[i];
+  if dMayor < dAux then
+  dMayor:=dAux;
+  end;
+  result :=dMayor;
+end;
+
+// Recibe un X ingresada por el usuario para estimar la solucion verdadera, MAxIteraciones = 100
+// Este Metodo se debe aplicar solo a matrices diagonales dominantes
+function tSistema.Gauss_Seidel(X : tVector; error : double): tVector;
+var
+  X0, aux, aux2  : tVector;
+  Iter, i, j, h : Integer;
+  G : tMatriz;
+begin
+  G := getMatriz();
+  aux := getVIndependiente();
+  SetLength(aux2,High(GetMatriz()));
+  Iter :=0;
+  SetLength(X0,High(GetMatriz()));
+  repeat
+    Iter := Iter+1;
+    X0 := X;
+    for i:=0 to High(GetMatriz()) do begin
+      x[i] := aux[i];
+      for j:= i+1 to High(GetMatriz()) do
+        x[i] := x[i]- G[i,j]*X0[j];
+      for j:=1 to i-1 do
+        x[i] := x[i] - G[i,j] * X[j];
+      X[i] := X[i]/G[i,i];
+    end;
+    for h :=0 to High(GetMatriz()) do
+      aux2[h] := X[h]-X0[h];
+    until((NormaV1(aux2)<error) or (Iter>100));
+  {writeln('X[0] ', X[0]);
+  writeln('X[1] ', X[1]);
+  writeln('X[2] ', X[2]);         }
+  result := X;
+end;
+
+function tSistema.Jacobi(X : tVector; error : double): tVector;
+var
+  X0, b, bPrima, aux : tVector;
+  d: double;
+  i, j , Iter : Integer;
+  G, Aprima: tMatriz;
+begin
+
+  G := getMatriz();
+  Aprima := getMatriz();
+  SetLength(bPrima,Length(getVIndependiente()));
+  SetLength(X0,Length(getVIndependiente()));
+  SetLength(aux,Length(getVIndependiente()));
+  SetLength(b,Length(getVIndependiente()));
+  b := getVIndependiente();
+  for i:=0 to Length(getVIndependiente())-1 do begin
+    d := 1/G[i][i];
+    bPrima[i] := d * b[i];
+    for j:=0 to Length(getVIndependiente())-1 do
+      Aprima[i][j] := d* G[i][j];
+  end;
+  Iter :=0;
+  repeat
+    Iter := Iter +1;
+    X0 := X;
+    for i:=0 to Length(getVIndependiente())-1 do begin
+      X[i] := bPrima[i];
+      for j:=0 to Length(getVIndependiente())-1 do begin
+        if (i<>j) then
+          x[i] := x[i] - Aprima[i,j] * X0[j];
+      end;
+    end;
+
+    for i:=0 to Length(getVIndependiente())-1 do
+      aux[i] := X[i] - X0[i];
+  until( (NormaV1(aux)<error) or (Iter>100));
+  SetLength(bPrima,0);
+  SetLength(Aprima,0);
+  SetLength(X0,0);
+  SetLength(aux,0);   //LIBERANDO MEMORIA
+  SetLength(b,0);
+ { writeln('X0 ',X[0]);
+  writeln('X1 ',X[1]);           DESCOMENTAR PARA VER SOLUCION DE SIST 3X3
+  writeln('X2 ',X[2]);          }
+  result := X;
+end;
+
+// Utilizamos esta funcion para Realizar el producto entre la matriz del sisitema y un vector(columna)
+function ProdutoMatriz_VectorColumna(M : tMatriz; V : tVector) : tVector;
+var
+ i, j, k :  integer;
+ prod : tVector;
+ acu : double;
+begin
+  SetLength(prod, length(V));
+  for i:=0 to length(V)-1 do begin
+    acu :=0;
+    for j:=0 to length(V)-1 do begin
+      acu := acu + M[i][j] * V[j];
+      end;
+    prod[i] := acu;
+  end;
+  result := prod;
+end;
+
+
+// Recibe un X inicial y la tolerancia del error, devuelve la aproximacion de la solucion, max iteracion es 100
+function tSistema.MejoramientoIterativo(X : tVector; error: double) : tVector;
+var
+  r, z, Producto, Xprima : tVector;
+  i , Iter, k : integer;
+  aux : tSistema;
+begin
+  Iter:=0;
+  SetLength(Xprima, length(getVIndependiente()));
+  Producto := ProdutoMatriz_VectorColumna(getMatriz(), X);
+  r := getVIndependiente();
+  for i:=0 to length(getVIndependiente())-1 do
+    r[i] := r[i] - Producto[i];
+  //writeln('r1 ',r[0]);
+  //writeln('r2 ',r[1]);
+  while (NormaVinf(r)>error) and (Iter<=100) do begin
+    //writeln(NormaV1(r));
+    Iter:= Iter+1;
+    //aux := tSistema.create(getMatriz());
+    aux := tSistema.create();
+    aux.setMatriz(getMatriz());
+    aux.setVIndependiente(r);
+    z := aux.Crout();
+    for i:=0 to length(getVIndependiente())-1 do
+      Xprima[i] := X[i] + z[i];
+    X:= Xprima;
+    Producto := ProdutoMatriz_VectorColumna(getMatriz(), X);
+    r:= getVIndependiente();
+    for i:=0 to length(getVIndependiente())-1 do
+      r[i] := r[i] - Producto[i];
+  end;
+  {writeln('X[0] ',X[0]:0:0);              // DESCOMENTAR PARA VER LA SOLUCION DE UN SISTEMA DE 2*2
+  writeln('X[1] ',X[1]:0:0);    }
+  result := X;
+end;
+
+// SOR recibe un Xincial, la toleracia de error y un W que es el factor de no se que cosa , devuelve la estimacion de la solucion
+// La maxima iteracion es 100
+function tSistema.SOR(X : tVector; error, w: double): tVector;
+var
+  Iter, i, j, k: integer;
+  X0, aux, aux2 : tVector;
+  G : tMatriz;
+begin
+  G := getMatriz();
+  SetLength(aux2,Length(getVIndependiente()));
+  SetLength(X0,Length(getVIndependiente()));
+  repeat
+    Iter := Iter+1;
+    X0 := X;
+    aux := getVIndependiente();
+    for i:=0 to Length(getVIndependiente())-1 do begin
+      x[i] := aux[i];
+      for j:= i+1 to Length(getVIndependiente())-1 do
+        x[i] := x[i]-G[i][j]*X[j];
+      for j:=1 to i-1 do
+        x[i] := x[i]- G[i][j]*X[j];
+      x[i] := x[i]/G[i][i];
+      x[i] := (1-w)*X0[i]+w*X[i];
+    end;
+  for k:=0 to Length(getVIndependiente())-1 do
+    aux2[k] := X[k]-X0[k];
+  until ( (NormaV1(aux2)<error) or (Iter > 100));   // UTILIZAMOS LA NORMA 1
+  //writeln('X[0] ',X[0]);                           // DESCOMENTAR PARA VER LA SOLUCION DE UN SISTEMA DE 3*3
+  //writeln('X[1] ',X[1]);
+  //writeln('X[2] ',X[2]);
+  SetLength(aux2,0);
+  SetLength(aux,0);
+  SetLength(X0,0);     //LIBERANDO MEMORIA
+  result := X;
+end;
+
+function tSistema.esSimetrica() : boolean;
+var
+  i, j, f: integer; //Indices y bandera
+  A: tMatriz;
+
+begin
+
+  A:=getMatriz();
+  f := 1;
+  i := 0;
+  j:= i + 1;
+
+  while(f <> 0) and (i<(High(GetMatriz()))) do begin
+    while (f <> 0) and (j < (High(GetMatriz()))) do begin
+      if(A[i,j] <> A[j,i]) then
+        f := 0;
+      j := j + 1;
+    end;
+    i := i + 1;
+    j := i + 1;
+  end;
+  if(f <> 0) then
+    esSimetrica := True
+  else
+    esSimetrica := False;
+
+end;
+
+
+function tSistema.esDiagDom() : boolean;
+var
+A : tMatriz;
+i,j,f : integer; //Indices y bandera
+s : double;
+
+begin
+  A:=getMatriz();
+  f:=1;
+  i:=1;
+  while (f <> 0) and (i<(High(GetMatriz()))) do
+  begin
+    s:=0;
+    for j:=0 to i-1 do s:=s+Abs(A[i,j]);
+    for j:=i+1 to High(GetMatriz()) do s:=s+Abs(A[i,j]);
+    if A[i,i]<=s
+      then f:=0;
+    i:=i+1;
+  end;
+  if f=1
+    then esDiagDom:=True
+    else esDiagDom:=False;
+
+end;
+
+function tSistema.determinante() : double;
+var
+  aux : integer;
+  A : tMatriz;
+
+begin
+  aux := getF();
+  A:= getMatriz();
+  result := det(A, aux);
+end;
+
+function tSistema.det(A: tMatriz; orden : integer):double; //retorna un double correspondiente al determinante de la matriz
+
+var
+
+n,i,j : integer;
+dtm : real;
+B : tMatriz;
+
+begin
+Case orden of
+1 : begin
+det:= A[0,0]
+end;
+2 : begin
+det:= A[0,0] * A[1,1] - A[0,1] * A[1,0]
+end;
+3 : begin
+det:= (A[0,0] * A[1,1] * A[2,2] + A[0,2] * A[1,0] * A[2,1] + A[0,1] * A[1,2] * A[2,0]) - (A[0,2] * A[1,1] * A[2,0] + A[0,1] * A[1,0] * A[2,2] + A[0,0] * A[1,2] * A[2,1]);
+end;
+else
+begin
+dtm:= 0;
+for n:= 0 to orden-1 do
+begin
+for i:= 1 to orden-1 do //carga la matriz B con los valores que quedan eliminando la fila y columna correspondiente de la matriz A
+begin
+for j:= 0 to n-2 do
+B[i-1,j]:= A[i,j];
+for j:= n to orden-1 do
+B[i-1,j-1]:= A[i,j];
+end;
+if (1+n) mod 2= 0 then i:=1 //signo del complemento algebraico
+else i:= -1;
+dtm:= dtm + i * A[0,n] * det(B,orden-1); //Llamada recursiva
+end; (*for-do*)
+det:= dtm;
+end; //Else
+end; //Case-of
+end; //Det
+
+function tSistema.verifica() : Boolean;
+var
+
+b : Integer;
+rta : Boolean;
+
+begin
+
+b:=1;
+rta:=esSimetrica();
+if rta=False then b:=0;
+rta:=esDiagDom();
+if rta=False then b:=0;
+rta:=esDefPosi();
+if rta=False then b:=0;
+
+if b<>0
+  then verifica:=True
+  else verifica:=False;
+
+
+end;
+
+function tSistema.esDefPosi() : boolean;
+var
+A : tMatriz;
+ord, f : integer;
+d : double;
+
+begin
+
+A:= getMatriz();
+ord:=High(GetMatriz());
+f:=1;
+while (f<>0) and (ord>1) do
+  begin
+  d:=determinante();
+  if d<=0 then
+    f:=0;
+  ord:=ord-1;
+  setLength(A, ord, ord);
+  end;
+if f<>0
+  then esDefPosi:=True
+  else esDefPosi:=False;
+
+end;
+
+end.

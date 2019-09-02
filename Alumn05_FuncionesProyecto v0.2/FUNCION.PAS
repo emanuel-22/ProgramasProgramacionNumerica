@@ -1,0 +1,553 @@
+Unit Funcion;
+
+INTERFACE
+
+Const
+  InDefinido : Double = 1e30;
+
+FUNCTION _f(formula:String; x:Double):Double;
+FUNCTION _f2(formula:String; x,y:Double):Double;
+
+IMPLEMENTATION
+Uses SysUtils,math;
+
+FUNCTION _f(formula:String;x:Double):Double;
+Type
+    Operando = Record
+        A : Double;
+        op: Char;
+    end;
+Var
+   Termino, Factor : Operando;
+   Arg, A, B : Double;
+   Operador  : Char;
+   Tope, p   : Byte;
+   Tot_Par   : Byte;
+   Parentesis: String;
+   Atomo     : String;
+   Code      : Integer;
+   Continuar : Boolean;
+
+Function Sgn(r:Double):integer;
+begin
+  if r<0 then sgn:=-1
+  else if r>0 then sgn:=1
+  else sgn:=0
+end;
+
+Function RelError(observed, actual: Double):Double;
+{ Error Relativo }
+begin
+  if actual=0.0 then relerror:=abs(observed)
+  else relerror:=abs(observed/actual-1)
+end;
+
+Function Pot(b,e: Double):Double;
+{ Computa b^e }
+begin
+  if b=0 then
+    if e=0 then Pot:=1                           { 0^0 = 1 }
+    else if e<0 then Pot:= InDefinido            { Error   }
+    else Pot:=0                                  { 0^x = 0 }
+  else if b<0 then
+    if abs(e)<1e-10 then Pot:=1
+    else if relerror(e,round(e))<1e-8 then
+      Pot:=(1-2*ord(odd(round(e))))*exp(e*ln(abs(b)))
+    else if (relerror(1/e,round(1/e))<1e-8) and odd(round(1/e)) then
+      Pot:=-exp(e*ln(abs(b)))
+    else Pot:= InDefinido                       { Error }
+  else Pot:=exp(e*ln(b));
+end;
+
+{Function Radical(Radicando, Indice:Double):Double;
+Begin
+  Radical:= Pot(Radicando, 1/Indice);
+End;}
+
+FUNCTION Valor_Atomo(Var v:String; Arg:Double):Double;
+VAR valor : Double;
+
+BEGIN
+  if (v='SIN') then valor:= sin(arg)
+  else if (v='COS') then valor:= cos(arg)
+  else if (v='TAN') then
+       if Cos(arg)=0.0 then valor:= InDefinido else valor:=sin(arg)/cos(arg)
+  else if (v='COTAN') then
+       if Sin(arg)=0.0 then valor:= InDefinido else valor:=cos(arg)/sin(arg)
+  else if (v='SEC') then
+       if Cos(arg)=0.0 then valor:= InDefinido else valor:=1/cos(arg)
+  else if (v='COSECANT') then
+       if Sin(arg)=0.0 then valor:= InDefinido else valor:=1/sin(arg)
+  else if (v='ASEN') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(-arg*arg+1))
+  else if (v='ACOS') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=-arctan(arg/sqrt(-arg*arg+1))+1.5708
+  else if (v='ATANG') then valor:=arctan(arg)
+  else if (v='ACOTG') then valor:=arctan(-arg) + 1.5708
+  else if (v='ASEC') then
+       if (arg >=-1) and (arg <=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(arg*arg-1))+sgn(sgn(arg)-1)*1.5708
+  else if (v='ACOSEC')  then
+       if (arg >=-1) and (arg <=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(arg*arg-1)) +(sgn(arg)-1)*1.5708
+  else if (v='SENH') then valor:=(exp(arg)-exp(-arg))/2
+  else if (v='COSH') then valor:=(exp(arg)+exp(-arg))/2
+  else if (v='SQRT') then valor:=sqrt(arg)
+  else if (v='TANGH') then valor:=(exp(arg)-exp(-arg))/(exp(arg)+exp(-arg))
+  else if (v='COTGH') then
+       if arg =0 then Valor:= InDefinido else valor:=(exp(arg)+exp(-arg))/(exp(arg)-exp(-arg))
+  else if (v='SECH') then valor:=2/(exp(arg)+exp(-arg))
+  else if (v='COSECH') then
+       if arg =0 then Valor:= InDefinido else valor:=2/(exp(arg) - exp(-arg))
+  else if (v='ASENH') then valor:=ln(arg+sqrt(arg*arg+1))
+  else if (v='ACOSH') then
+       if (arg <1) then valor:= InDefinido else valor:=ln(arg+sqrt(arg*arg-1))
+  else if (v='ATANGH') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=ln((1+arg)/(1-arg))/2
+  else if (v='ACOTGH') then
+       if (arg <=1) and (arg >=-1) then valor:= InDefinido else valor:=ln((arg+1)/(arg-1))/2
+  else if (v='ASECH') then
+       if (arg <=0) or (arg >1) then valor:= InDefinido else valor:=ln(1/arg+sqrt(1/(arg*arg)-1))
+  else if (v='ACOSECH') then
+       if (arg =0) then valor:= InDefinido else valor:=ln(1/arg+sqrt(1/(arg*arg)+1))
+  else if (v='EXP') or (v='E')  then valor:=exp(arg)
+  else if (v='INT') then valor:=int(arg)
+  else if (v='ABS') then valor:=abs(arg)
+  else if (v='LN') then
+       if (arg <=0) then valor:= InDefinido else valor:=ln(arg)
+  else if ((v ='ã') or (v='PI')) then valor:= Pi
+  else val(v,valor,code);
+  v:= '';
+  Valor_Atomo:= valor;
+END;
+
+Function Operar(x, y: Double; Var op : Char): Double;
+Var  r: Double;
+Begin
+  Case op of
+    '^': r:= Pot(x,y);
+    //'û': r:= Radical(y, x);
+    '*': r:= x * y;
+    '/': if y=0 then r:= Indefinido else r:= x / y;
+    '+': r:= x + y;
+    '-': r:= x - y;
+  End;
+  op:= #0;
+  Operar:= r;
+End;
+
+Begin
+  Formula := UpperCase(Formula);
+  Operador:= #0; Termino.Op:= #0; Factor.Op:= #0;
+  Tope:= Length(Formula); p:=1; A:= 0; Atomo:= '';
+  Continuar:= True;
+  While (p <= Tope) and Continuar Do
+    Begin
+      Case Formula[p] of
+               '(': Begin
+                      Inc(p); Tot_par:= 1; Parentesis:='';
+                      while (Tot_Par<>0) and (p <=Tope) do
+                       Begin
+                         if Formula[p] = '(' then tot_par:= tot_par + 1;
+                         if Formula[p] = ')' then tot_par:= tot_par - 1;
+                         if Tot_Par<>0 then
+                            Begin
+                              Parentesis:= Parentesis + Formula[p];
+                              Inc(p);
+                            End;
+                       End;
+                      if Atomo <>'' then
+                         Arg:= Valor_Atomo(Atomo, _F(Parentesis, x))
+                      else
+                         Arg:= _F(Parentesis, x);
+                      if Arg = Indefinido then Continuar:= False;
+                      if Operador =#0 then
+                         A:= Arg
+                      else
+                         B:= Arg;
+                    End;
+          '0'..'9': Begin
+                       parentesis:='';
+                       while (p<=Tope) and (Formula[p] in ['0'..'9','.']) do
+                             begin
+                               parentesis:= parentesis + formula[p];
+                               Inc(p);
+                             end;
+                       val(parentesis, Arg, code);
+                       if Atomo <>'' then
+                          Arg:= Valor_Atomo(Atomo, Arg);
+
+                      if Arg = Indefinido then Continuar:= False;
+
+                       if Operador =#0 then
+                          A:= Arg
+                       else
+                          B:= Arg;
+                       Dec(p);
+                    End;
+       'X','ã','Y': Begin
+                      Case Formula[p] of
+                           'X' : Arg:= X;
+                           'ã' : Arg:= Pi;
+                           'Y' : Arg:= X;
+                      End;
+                      if Atomo <>'' then
+                         Arg:= Valor_Atomo(Atomo, Arg);
+                      if Arg = Indefinido then Continuar:= False;
+                      if Operador =#0 then
+                         A:= Arg
+                      else
+                         B:= Arg;
+                    End;
+
+          'A','C',
+          'E','I',
+          'L','S','T': Begin
+                         Atomo:='';
+                         while (p<=Tope) and Not (Formula[p] in [' ','(']) do
+                             Begin
+                               Atomo:= Atomo + formula[p];
+                               Inc(p);
+                             End;
+                         Dec(p);
+                       End;
+
+          '+','-' : Begin
+                      if Operador <>#0 then
+                         Begin
+                           A:= Operar(a, b, Operador);
+                           if A = Indefinido then Continuar:= False;
+                           if (Factor.Op <>#0) and Continuar then
+                              A:= Operar(Factor.a, a, Factor.Op);
+                           if A = Indefinido then Continuar:= False;
+                           if (Termino.Op <>#0) and Continuar then
+                              A:= Operar(Termino.a, a, Termino.Op);
+                         End;
+                      Operador:= Formula[p];
+                    End;
+
+          '*','/' : Begin
+                      if Operador in ['+','-'] then
+                         Begin
+                           Termino.a:= a;
+                           Termino.Op:= Operador;
+                           A:= b;
+                         End
+                      else if Operador <>#0 then
+                              Begin
+                                A:= Operar(a, b, Operador);
+                                if A=Indefinido then Continuar:= False;
+                                if (Factor.Op <>#0) and Continuar then
+                                   A:= Operar(Factor.a, a, Factor.Op);
+                              End;
+                      Operador:= Formula[p];
+                    End;
+
+          '^'{,'û'} : Begin
+                      Case Operador of
+                         '+','-' : Begin
+                                     Termino.a:= a;
+                                     Termino.op:= Operador;
+                                     a:= b;
+                                   End;
+                         '*','/' : Begin
+                                     Factor.a:= a;
+                                     Factor.Op:= Operador;
+                                     a:= b;
+                                   End;
+                         else
+                                   if Operador <>#0 then
+                                      Begin
+                                        A:= Operar(a, b, Operador);
+                                        if A=Indefinido then Continuar:=False;
+                                      End;
+                      End;
+                      Operador:= Formula[p];
+                    End;
+      End;
+      Repeat
+        Inc(p);
+      Until Formula[p] <>' ';
+    End;
+
+  if Continuar then
+    Begin
+      if Operador <> #0 then A:= Operar(a, b, Operador);
+      if Factor.Op<> #0 then A:= Operar(Factor.a, a, Factor.Op);
+      if Termino.Op<>#0 then A:= Operar(Termino.a, a, Termino.Op);
+      _F:= A;
+    End
+  else
+     _F:= Indefinido;
+END;
+
+{||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||}
+
+FUNCTION _f2(formula:String;x,y:Double):Double;
+Type
+    Operando = Record
+        A : Double;
+        op: Char;
+    end;
+Var
+   Termino, Factor : Operando;
+   Arg, A, B : Double;
+   Operador  : Char;
+   Tope, p   : Byte;
+   Tot_Par   : Byte;
+   Parentesis: String;
+   Atomo     : String;
+   Code      : Integer;
+   Continuar : Boolean;
+
+Function Sgn(r:Double):integer;
+begin
+  if r<0 then sgn:=-1
+  else if r>0 then sgn:=1
+  else sgn:=0
+end;
+
+Function RelError(observed, actual: Double):Double;
+{ Error Relativo }
+begin
+  if actual=0.0 then relerror:=abs(observed)
+  else relerror:=abs(observed/actual-1)
+end;
+
+Function Pot(b,e: Double):Double;
+{ Computa b^e }
+begin
+  if b=0 then
+    if e=0 then Pot:=1                           { 0^0 = 1 }
+    else if e<0 then Pot:= InDefinido            { Error   }
+    else Pot:=0                                  { 0^x = 0 }
+  else if b<0 then
+    if abs(e)<1e-10 then Pot:=1
+    else if relerror(e,round(e))<1e-8 then
+      Pot:=(1-2*ord(odd(round(e))))*exp(e*ln(abs(b)))
+    else if (relerror(1/e,round(1/e))<1e-8) and odd(round(1/e)) then
+      Pot:=-exp(e*ln(abs(b)))
+    else Pot:= InDefinido                       { Error }
+  else Pot:=exp(e*ln(b))
+end;
+
+{Function Radical(Radicando, Indice:Double):Double;
+Begin
+  Radical:= Pot(Radicando, 1/Indice);
+End;}
+
+FUNCTION Valor_Atomo(Var v:String; Arg:Double):Double;
+VAR valor : Double;
+
+BEGIN
+  if (v='SIN') then valor:= sin(arg)
+  else if (v='COS') then valor:= cos(arg)
+  else if (v='TAN') then
+       if Cos(arg)=0.0 then valor:= InDefinido else valor:=sin(arg)/cos(arg)
+  else if (v='COTAN') then
+       if Sin(arg)=0.0 then valor:= InDefinido else valor:=cos(arg)/sin(arg)
+  else if (v='SEC') then
+       if Cos(arg)=0.0 then valor:= InDefinido else valor:=1/cos(arg)
+  else if (v='COSECANT') then
+       if Sin(arg)=0.0 then valor:= InDefinido else valor:=1/sin(arg)
+  else if (v='ASEN') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(-arg*arg+1))
+  else if (v='ACOS') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=-arctan(arg/sqrt(-arg*arg+1))+1.5708
+  else if (v='ATANG') then valor:=arctan(arg)
+  else if (v='ACOTG') then valor:=arctan(-arg) + 1.5708
+  else if (v='ASEC') then
+       if (arg >=-1) and (arg <=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(arg*arg-1))+sgn(sgn(arg)-1)*1.5708
+  else if (v='ACOSEC')  then
+       if (arg >=-1) and (arg <=1) then valor:= InDefinido else valor:=arctan(arg/sqrt(arg*arg-1)) +(sgn(arg)-1)*1.5708
+  else if (v='SENH') then valor:=(exp(arg)-exp(-arg))/2
+  else if (v='COSH') then valor:=(exp(arg)+exp(-arg))/2
+  else if (v='SQRT') then valor:=sqrt(arg)
+  else if (v='TANGH') then valor:=(exp(arg)-exp(-arg))/(exp(arg)+exp(-arg))
+  else if (v='COTGH') then
+       if arg =0 then Valor:= InDefinido else valor:=(exp(arg)+exp(-arg))/(exp(arg)-exp(-arg))
+  else if (v='SECH') then valor:=2/(exp(arg)+exp(-arg))
+  else if (v='COSECH') then
+       if arg =0 then Valor:= InDefinido else valor:=2/(exp(arg) - exp(-arg))
+  else if (v='ASENH') then valor:=ln(arg+sqrt(arg*arg+1))
+  else if (v='ACOSH') then
+       if (arg <1) then valor:= InDefinido else valor:=ln(arg+sqrt(arg*arg-1))
+  else if (v='ATANGH') then
+       if (arg <=-1) or (arg >=1) then valor:= InDefinido else valor:=ln((1+arg)/(1-arg))/2
+  else if (v='ACOTGH') then
+       if (arg <=1) and (arg >=-1) then valor:= InDefinido else valor:=ln((arg+1)/(arg-1))/2
+  else if (v='ASECH') then
+       if (arg <=0) or (arg >1) then valor:= InDefinido else valor:=ln(1/arg+sqrt(1/(arg*arg)-1))
+  else if (v='ACOSECH') then
+       if (arg =0) then valor:= InDefinido else valor:=ln(1/arg+sqrt(1/(arg*arg)+1))
+  else if (v='EXP') or (v='E')  then valor:=exp(arg)
+  else if (v='INT') then valor:=int(arg)
+  else if (v='ABS') then valor:=abs(arg)
+  else if (v='LN') then
+       if (arg <=0) then valor:= InDefinido else valor:=ln(arg)
+  else if ((v ='ã') or (v='PI')) then valor:= Pi
+  else val(v,valor,code);
+  v:= '';
+  Valor_Atomo:= valor;
+END;
+
+Function Operar(x, y: Double; Var op : Char): Double;
+Var  r: Double;
+Begin
+  Case op of
+    '^': r:= Pot(x,y);
+    //'û': r:= Radical(y, x);
+    '*': r:= x * y;
+    '/': if y=0 then r:= Indefinido else r:= x / y;
+    '+': r:= x + y;
+    '-': r:= x - y;
+  End;
+  op:= #0;
+  Operar:= r;
+End;
+
+Begin
+  Formula := UpperCase(Formula);
+  Operador:= #0; Termino.Op:= #0; Factor.Op:= #0;
+  Tope:= Length(Formula); p:=1; A:= 0; Atomo:= '';
+  Continuar:= True;
+  While (p <= Tope) and Continuar Do
+    Begin
+      Case Formula[p] of
+               '(': Begin
+                      Inc(p); Tot_par:= 1; Parentesis:='';
+                      while (Tot_Par<>0) and (p <=Tope) do
+                       Begin
+                         if Formula[p] = '(' then tot_par:= tot_par + 1;
+                         if Formula[p] = ')' then tot_par:= tot_par - 1;
+                         if Tot_Par<>0 then
+                            Begin
+                              Parentesis:= Parentesis + Formula[p];
+                              Inc(p);
+                            End;
+                       End;
+                      if Atomo <>'' then
+                         Arg:= Valor_Atomo(Atomo, _F(Parentesis, x))
+                      else
+                         Arg:= _F(Parentesis, x);
+                      if Arg = Indefinido then Continuar:= False;
+                      if Operador =#0 then
+                         A:= Arg
+                      else
+                         B:= Arg;
+                    End;
+          '0'..'9': Begin
+                       parentesis:='';
+                       while (p<=Tope) and (Formula[p] in ['0'..'9','.']) do
+                             begin
+                               parentesis:= parentesis + formula[p];
+                               Inc(p);
+                             end;
+                       val(parentesis, Arg, code);
+                       if Atomo <>'' then
+                          Arg:= Valor_Atomo(Atomo, Arg);
+
+                      if Arg = Indefinido then Continuar:= False;
+
+                       if Operador =#0 then
+                          A:= Arg
+                       else
+                          B:= Arg;
+                       Dec(p);
+                    End;
+      'X','ã','Y': Begin
+                      Case Formula[p] of
+                           'X' : Arg:= X;
+                           'ã' : Arg:= Pi;
+                           'Y' : Arg:= Y;
+                      End;
+                      if Atomo <>'' then
+                         Arg:= Valor_Atomo(Atomo, Arg);
+                      if Arg = Indefinido then Continuar:= False;
+                      if Operador =#0 then
+                         A:= Arg
+                      else
+                         B:= Arg;
+                    End;
+
+          'A','C',
+          'E','I',
+          'L','S','T': Begin
+                         Atomo:='';
+                         while (p<=Tope) and Not (Formula[p] in [' ','(']) do
+                             Begin
+                               Atomo:= Atomo + formula[p];
+                               Inc(p);
+                             End;
+                         Dec(p);
+                       End;
+
+          '+','-' : Begin
+                      if Operador <>#0 then
+                         Begin
+                           A:= Operar(a, b, Operador);
+                           if A = Indefinido then Continuar:= False;
+                           if (Factor.Op <>#0) and Continuar then
+                              A:= Operar(Factor.a, a, Factor.Op);
+                           if A = Indefinido then Continuar:= False;
+                           if (Termino.Op <>#0) and Continuar then
+                              A:= Operar(Termino.a, a, Termino.Op);
+                         End;
+                      Operador:= Formula[p];
+                    End;
+
+          '*','/' : Begin
+                      if Operador in ['+','-'] then
+                         Begin
+                           Termino.a:= a;
+                           Termino.Op:= Operador;
+                           A:= b;
+                         End
+                      else if Operador <>#0 then
+                              Begin
+                                A:= Operar(a, b, Operador);
+                                if A=Indefinido then Continuar:= False;
+                                if (Factor.Op <>#0) and Continuar then
+                                   A:= Operar(Factor.a, a, Factor.Op);
+                              End;
+                      Operador:= Formula[p];
+                    End;
+
+          '^'{,'û'} : Begin
+                      Case Operador of
+                         '+','-' : Begin
+                                     Termino.a:= a;
+                                     Termino.op:= Operador;
+                                     a:= b;
+                                   End;
+                         '*','/' : Begin
+                                     Factor.a:= a;
+                                     Factor.Op:= Operador;
+                                     a:= b;
+                                   End;
+                         else
+                                   if Operador <>#0 then
+                                      Begin
+                                        A:= Operar(a, b, Operador);
+                                        if A=Indefinido then Continuar:=False;
+                                      End;
+                      End;
+                      Operador:= Formula[p];
+                    End;
+      End;
+      Repeat
+        Inc(p);
+      Until Formula[p] <>' ';
+    End;
+
+  if Continuar then
+    Begin
+      if Operador <> #0 then A:= Operar(a, b, Operador);
+      if Factor.Op<> #0 then A:= Operar(Factor.a, a, Factor.Op);
+      if Termino.Op<>#0 then A:= Operar(Termino.a, a, Termino.Op);
+      _F2:= A;
+    End
+  else
+     _F2:= Indefinido;
+
+ end;
+{||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||}
+END.

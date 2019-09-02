@@ -1,0 +1,212 @@
+object formSistemas: TformSistemas
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Resolucion de Sistemas de Ecuaciones Lineales V1.0'
+  ClientHeight = 430
+  ClientWidth = 889
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lblIncognitas: TLabel
+    Left = 24
+    Top = 27
+    Width = 163
+    Height = 13
+    Caption = 'Numero de incognitas del sistema:'
+  end
+  object lblInfoUsuario: TLabel
+    Left = 401
+    Top = 214
+    Width = 289
+    Height = 13
+    Caption = 'Necesita validar el sistema para poder realizar los calculos.'
+  end
+  object sgridSistema: TStringGrid
+    Left = 24
+    Top = 56
+    Width = 797
+    Height = 138
+    BiDiMode = bdLeftToRight
+    BorderStyle = bsNone
+    ColCount = 3
+    Ctl3D = False
+    DoubleBuffered = False
+    DrawingStyle = gdsGradient
+    FixedCols = 0
+    RowCount = 3
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    GradientEndColor = clSkyBlue
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goEditing]
+    ParentBiDiMode = False
+    ParentCtl3D = False
+    ParentDoubleBuffered = False
+    ParentFont = False
+    TabOrder = 0
+  end
+  object edtIncognitas: TEdit
+    Left = 193
+    Top = 24
+    Width = 163
+    Height = 21
+    Alignment = taCenter
+    MaxLength = 2
+    NumbersOnly = True
+    TabOrder = 1
+    Text = '2'
+    OnChange = edtIncognitasChange
+  end
+  object btnValidar: TButton
+    Left = 24
+    Top = 209
+    Width = 163
+    Height = 25
+    Caption = 'Validar'
+    TabOrder = 2
+    OnClick = btnValidarClick
+  end
+  object btnModificar: TButton
+    Left = 193
+    Top = 209
+    Width = 163
+    Height = 25
+    Caption = 'Modificar'
+    TabOrder = 3
+    OnClick = btnModificarClick
+  end
+  object groupMetodosDirectos: TGroupBox
+    Left = 24
+    Top = 254
+    Width = 332
+    Height = 158
+    Caption = 'Metodos Directos'
+    Enabled = False
+    TabOrder = 4
+    object GroupBox1: TGroupBox
+      Left = 24
+      Top = 25
+      Width = 145
+      Height = 122
+      Caption = 'Gauss'
+      TabOrder = 0
+      object btnGaussPS: TButton
+        Left = 16
+        Top = 24
+        Width = 113
+        Height = 25
+        Caption = 'Con pivoteo simple'
+        TabOrder = 0
+        OnClick = btnGaussPSClick
+      end
+      object btnGaussPP: TButton
+        Left = 16
+        Top = 55
+        Width = 113
+        Height = 25
+        Caption = 'Con pivoteo parcial'
+        TabOrder = 1
+        OnClick = btnGaussPPClick
+      end
+      object btnGaussPT: TButton
+        Left = 16
+        Top = 86
+        Width = 113
+        Height = 25
+        Caption = 'Con pivoteo total'
+        TabOrder = 2
+        OnClick = btnGaussPTClick
+      end
+    end
+    object btnGauss_Jordan: TButton
+      Left = 199
+      Top = 49
+      Width = 113
+      Height = 25
+      Caption = 'Gauss-Jordan'
+      TabOrder = 1
+      OnClick = btnGauss_JordanClick
+    end
+    object btnCrout: TButton
+      Left = 199
+      Top = 80
+      Width = 113
+      Height = 25
+      Caption = 'Crout'
+      TabOrder = 2
+      OnClick = btnCroutClick
+    end
+    object btnCholesky: TButton
+      Left = 199
+      Top = 111
+      Width = 113
+      Height = 25
+      Caption = 'Cholesky'
+      TabOrder = 3
+      OnClick = btnCholeskyClick
+    end
+  end
+  object groupMetodosIndirectos: TGroupBox
+    Left = 401
+    Top = 254
+    Width = 289
+    Height = 158
+    Caption = 'Metodos Indirectos'
+    Enabled = False
+    TabOrder = 5
+    object btnGauss_Seidel: TButton
+      Left = 15
+      Top = 49
+      Width = 113
+      Height = 25
+      Caption = 'Gauss-Seidel'
+      TabOrder = 0
+      OnClick = btnGauss_SeidelClick
+    end
+    object btnJacobi: TButton
+      Left = 15
+      Top = 80
+      Width = 113
+      Height = 25
+      Caption = 'Jacobi'
+      TabOrder = 1
+    end
+    object Button12: TButton
+      Left = 15
+      Top = 111
+      Width = 113
+      Height = 25
+      Caption = 'Relajamiento'
+      TabOrder = 2
+    end
+    object btnMejoramiento: TButton
+      Left = 152
+      Top = 49
+      Width = 120
+      Height = 25
+      Caption = 'Mejoramiento Iterativo'
+      TabOrder = 3
+    end
+    object btnSOR: TButton
+      Left = 152
+      Top = 80
+      Width = 120
+      Height = 25
+      Caption = 'SOR'
+      TabOrder = 4
+    end
+  end
+end

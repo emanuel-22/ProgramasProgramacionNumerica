@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\2.6.4\bin\i386-win32\fpc.exe" Date="1154382129"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -vewnhi &quot;-FiA:\unsa\segundo cuatrimestre 2014\prog numerica\el-programa\lib\i386-win32&quot; &quot;-FuA:\unsa\segundo cuatrimestre 2014\prog numerica\el-programa\&quot; &quot;-FUA:\unsa\segundo cuatrimestre 2014\prog numerica\el-programa\lib\i386-win32\&quot; -l prin.pas"/>
+  <Complete Value="False"/>
+</CONFIG>

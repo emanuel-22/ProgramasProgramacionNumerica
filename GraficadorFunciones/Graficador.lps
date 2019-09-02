@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="12">
+      <Unit0>
+        <Filename Value="Graficador.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="30" Y="15"/>
+        <UsageCount Value="22"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="myfunction.pas"/>
+        <UnitName Value="MyFunction"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="3"/>
+        <UsageCount Value="10"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ufuncion.pas"/>
+        <UnitName Value="uFuncion"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="396"/>
+        <CursorPos X="49" Y="405"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="graffuncion.pas"/>
+        <UnitName Value="GrafFuncion"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="332"/>
+        <CursorPos Y="2"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="diffexpress.pas"/>
+        <UnitName Value="DiffExpress"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="6"/>
+        <CursorPos X="3" Y="19"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../../calculo Numerico/2_F(X)/Graf_Fx/GrafFuncion.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="30" Y="21"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../../Uni2_EcuacionesNoLineales/Graf_Fx/GrafFuncion.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="189"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../calculo Numerico/2_F(X)/Graf_Fx/DiffExpress.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../calculo Numerico/2_F(X)/Graf_Fx/uFuncion.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../../../Object_Pascal/Ema_Parte2.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../../../Uni2_EcuacionesNoLineales/Graf_Fx/DiffExpress.pas"/>
+        <CursorPos X="42" Y="20"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../../../Uni2_EcuacionesNoLineales/Graf_Fx/uFuncion.pas"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="21" Y="7"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit11>
+    </Units>
+    <JumpHistory Count="1">
+      <Position1>
+        <Filename Value="diffexpress.pas"/>
+        <Caret Line="19" Column="3" TopLine="6"/>
+      </Position1>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

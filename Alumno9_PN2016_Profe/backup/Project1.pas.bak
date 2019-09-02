@@ -1,0 +1,23 @@
+program Project1;
+Uses Math;
+
+var
+  i,num,b,E,aux,dig,nue: integer;
+  pot:LongInt;
+
+begin
+  nue:=0; E:=0; dig:=0; i:=10;
+  Write('La base: '); readln(b);
+  Write('El num: ');readln(num);
+  aux:= num;
+  while(aux<>0)do
+                 begin
+                 dig:=aux mod (b);
+                 pot:= i power E;
+                 nue:=nue +(dig *pot);
+                 E:=E+1;
+                 aux:=aux div b;
+                 end;
+  write('Su numero nuwvo es',nue);
+  readln;
+end.

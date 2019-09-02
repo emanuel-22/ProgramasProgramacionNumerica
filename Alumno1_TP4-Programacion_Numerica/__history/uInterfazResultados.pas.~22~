@@ -1,0 +1,46 @@
+unit uInterfazResultados;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, uSistemasLineales;
+
+type
+  TformResultados = class(TForm)
+    memoResultados: TMemo;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure mostrarSolucion(solucion: tVector; name: string);
+  end;
+
+var
+  formResultados: TformResultados;
+
+implementation
+
+{$R *.dfm}
+
+procedure TformResultados.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree; // Liberamos el formulario
+end;
+
+procedure TformResultados.mostrarSolucion(solucion: tVector; name: string);
+var
+  i: integer;
+  cad: string;
+begin
+  cad := '';
+  memoResultados.Lines.Add(concat('Solucion del sistema ', name, ':'));
+  memoResultados.Lines.Add('');
+  for i := 0 to High(solucion) do begin
+    cad := concat('X', IntToStr(i), ' = ', FloatToStr(solucion[i]));
+    memoResultados.Lines.Add(cad);
+  end;
+end;
+
+end.

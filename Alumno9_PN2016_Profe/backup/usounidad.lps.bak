@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="usounidad.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="4"/>
+        <CursorPos X="33" Y="23"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mates.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="18" Y="24"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\calculo Numerico\2_F(X)\Graf_Fx\uFuncion.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
+    </Units>
+    <JumpHistory HistoryIndex="-1"/>
+  </ProjectSession>
+</CONFIG>

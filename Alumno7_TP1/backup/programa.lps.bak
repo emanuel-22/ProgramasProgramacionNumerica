@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="programa.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="programaErrores"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="350"/>
+        <CursorPos X="13" Y="350"/>
+        <UsageCount Value="97"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\inc\mathh.inc"/>
+        <TopLine Value="76"/>
+        <CursorPos X="14" Y="84"/>
+        <UsageCount Value="3"/>
+      </Unit1>
+    </Units>
+    <JumpHistory Count="27" HistoryIndex="26">
+      <Position1>
+        <Filename Value="programa.pas"/>
+        <Caret Line="380" Column="49" TopLine="370"/>
+      </Position1>
+      <Position2>
+        <Filename Value="programa.pas"/>
+        <Caret Line="343" Column="6" TopLine="73"/>
+      </Position2>
+      <Position3>
+        <Filename Value="programa.pas"/>
+        <Caret Line="222" Column="14" TopLine="11"/>
+      </Position3>
+      <Position4>
+        <Filename Value="programa.pas"/>
+        <Caret Line="402" Column="28" TopLine="378"/>
+      </Position4>
+      <Position5>
+        <Filename Value="programa.pas"/>
+        <Caret Line="48" Column="29" TopLine="38"/>
+      </Position5>
+      <Position6>
+        <Filename Value="programa.pas"/>
+        <Caret Line="98" Column="24" TopLine="85"/>
+      </Position6>
+      <Position7>
+        <Filename Value="programa.pas"/>
+        <Caret Line="75" Column="13" TopLine="55"/>
+      </Position7>
+      <Position8>
+        <Filename Value="programa.pas"/>
+        <Caret Line="29" Column="22" TopLine="18"/>
+      </Position8>
+      <Position9>
+        <Filename Value="programa.pas"/>
+        <Caret Line="76" Column="15" TopLine="72"/>
+      </Position9>
+      <Position10>
+        <Filename Value="programa.pas"/>
+        <Caret Line="185" Column="102" TopLine="68"/>
+      </Position10>
+      <Position11>
+        <Filename Value="programa.pas"/>
+        <Caret Line="220" Column="19" TopLine="202"/>
+      </Position11>
+      <Position12>
+        <Filename Value="programa.pas"/>
+        <Caret Line="79" Column="20" TopLine="69"/>
+      </Position12>
+      <Position13>
+        <Filename Value="programa.pas"/>
+        <Caret Line="81" Column="17" TopLine="59"/>
+      </Position13>
+      <Position14>
+        <Filename Value="programa.pas"/>
+        <Caret Line="29" Column="21" TopLine="9"/>
+      </Position14>
+      <Position15>
+        <Filename Value="programa.pas"/>
+        <Caret Line="320" Column="84" TopLine="292"/>
+      </Position15>
+      <Position16>
+        <Filename Value="programa.pas"/>
+        <Caret Line="29" Column="21" TopLine="9"/>
+      </Position16>
+      <Position17>
+        <Filename Value="programa.pas"/>
+        <Caret Line="76" Column="13" TopLine="56"/>
+      </Position17>
+      <Position18>
+        <Filename Value="programa.pas"/>
+        <Caret Line="305" Column="48" TopLine="285"/>
+      </Position18>
+      <Position19>
+        <Filename Value="programa.pas"/>
+        <Caret Line="26" Column="10" TopLine="24"/>
+      </Position19>
+      <Position20>
+        <Filename Value="programa.pas"/>
+        <Caret Column="27"/>
+      </Position20>
+      <Position21>
+        <Filename Value="programa.pas"/>
+        <Caret Line="346" Column="32" TopLine="327"/>
+      </Position21>
+      <Position22>
+        <Filename Value="programa.pas"/>
+        <Caret Line="22" Column="21"/>
+      </Position22>
+      <Position23>
+        <Filename Value="programa.pas"/>
+        <Caret Column="24"/>
+      </Position23>
+      <Position24>
+        <Filename Value="programa.pas"/>
+        <Caret Line="74" Column="11" TopLine="54"/>
+      </Position24>
+      <Position25>
+        <Filename Value="programa.pas"/>
+        <Caret Line="218" Column="16" TopLine="198"/>
+      </Position25>
+      <Position26>
+        <Filename Value="programa.pas"/>
+        <Caret Line="338" Column="35" TopLine="315"/>
+      </Position26>
+      <Position27>
+        <Filename Value="programa.pas"/>
+        <Caret Line="336" Column="49" TopLine="315"/>
+      </Position27>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

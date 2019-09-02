@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\3.0.0\bin\i386-win32\fpc.exe" Date="1213097031"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -l -vewnhibq &quot;-FiH:\Programación Numerica 2015\Trabajos Prácticos\Trabajo Práctico 1\TP1\lib\i386-win32&quot; &quot;-FuH:\Programación Numerica 2015\Trabajos Prácticos\Trabajo Práctico 1\TP1\&quot; &quot;-FUH:\Programación Numerica 2015\Trabajos Prácticos\Trabajo Práctico 1\TP1\lib\i386-win32\&quot; programa.pas"/>
+</CONFIG>

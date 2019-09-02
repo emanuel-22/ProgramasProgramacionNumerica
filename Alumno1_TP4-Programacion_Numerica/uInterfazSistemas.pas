@@ -1,0 +1,387 @@
+unit uInterfazSistemas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Grids, uSistemasLineales, uInterfazResultados;
+
+type
+  TformSistemas = class(TForm)
+    sgridSistema: TStringGrid;
+    edtIncognitas: TEdit;
+    lblIncognitas: TLabel;
+    btnValidar: TButton;
+    btnModificar: TButton;
+    groupMetodosDirectos: TGroupBox;
+    GroupBox1: TGroupBox;
+    btnGaussPS: TButton;
+    btnGaussPP: TButton;
+    btnGaussPT: TButton;
+    btnGauss_Jordan: TButton;
+    btnCrout: TButton;
+    btnCholesky: TButton;
+    groupMetodosIndirectos: TGroupBox;
+    btnGauss_Seidel: TButton;
+    btnJacobi: TButton;
+    btnMejoramiento: TButton;
+    btnSOR: TButton;
+    lblInfoUsuario: TLabel;
+    edtError: TEdit;
+    Label1: TLabel;
+    sgridVectorX0: TStringGrid;
+    Label2: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure btnValidarClick(Sender: TObject);
+    procedure edtIncognitasChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnModificarClick(Sender: TObject);
+    procedure btnGaussPSClick(Sender: TObject);
+    procedure btnGauss_JordanClick(Sender: TObject);
+    procedure btnCroutClick(Sender: TObject);
+    procedure btnGaussPPClick(Sender: TObject);
+    procedure btnGaussPTClick(Sender: TObject);
+    procedure btnCholeskyClick(Sender: TObject);
+    procedure btnGauss_SeidelClick(Sender: TObject);
+    procedure btnJacobiClick(Sender: TObject);
+    procedure btnMejoramientoClick(Sender: TObject);
+    procedure btnSORClick(Sender: TObject);
+  private
+    { Private declarations }
+    function crearMatrizCoeficientes(): tMatriz;
+    function crearVectorIndependiente(): tVector;
+    procedure cargarMatrizDefault();
+    function crearVectorX0(): tVector;
+    procedure cargarVectorX0Default();
+  public
+    { Public declarations }
+  end;
+
+var
+  formSistemas: TformSistemas;
+  sistema: tSistema;
+
+implementation
+
+{$R *.dfm}
+
+// Cargar matriz con valores por defecto, todos 0
+procedure TformSistemas.cargarMatrizDefault();
+var
+  j, k: integer;
+begin
+  // Obtenemos los datos del StringGrid
+  for k := 1 to sgridSistema.RowCount - 1 do begin
+    for j := 0 to sgridSistema.ColCount - 1 do begin
+      sgridSistema.Cells[j, k] := '0,0';
+    end;
+  end;
+end;
+
+procedure TformSistemas.cargarVectorX0Default();
+var
+  j: integer;
+begin
+  // Recorro la columna de terminos independientes del StringGrid
+  for j := 0 to sgridVectorX0.RowCount - 1 do begin
+    sgridVectorX0.Cells[0, j] := '0,0';
+  end;
+end;
+
+procedure TformSistemas.btnMejoramientoClick(Sender: TObject);
+var
+  vectorX0: tVector;
+  error: double;
+  solucion: tVector;
+begin
+  try
+    // Obtenemos los datos del vector inicial
+    vectorX0 := crearVectorX0();
+    // Obtenemos el error
+    error := StrToFloat(edtError.Text);
+    solucion := sistema.MejoramientoIterativo(vectorX0, error);
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(solucion, btnMejoramiento.Caption);
+  except
+    ShowMessage('Se ingresaron datos incorrectos.');
+  end;
+end;
+
+procedure TformSistemas.btnModificarClick(Sender: TObject);
+begin
+  if(btnValidar.Enabled = false) then begin
+    btnValidar.Enabled := true;
+    sgridSistema.Enabled := true;
+    edtIncognitas.Enabled := true;
+    lblInfoUsuario.Caption := 'Necesita validar el sistema para poder realizar los calculos.';
+    // Desactivar operaciones
+    groupMetodosDirectos.Enabled := false;
+    groupMetodosIndirectos.Enabled := false;
+
+    // Valores por defecto de componentes de metodos indirectos
+    edtError.Text := '0,00000001';
+
+  end;
+end;
+
+procedure TformSistemas.btnSORClick(Sender: TObject);
+var
+  vectorX0: tVector;
+  error: double;
+  ingreso: string;
+  w: double;
+  solucion: tVector;
+begin
+  try
+    // Obtenemos los datos del vector inicial
+    vectorX0 := crearVectorX0();
+    // Obtenemos el error
+    error := StrToFloat(edtError.Text);
+    // Ingreso factor W
+    ingreso := InputBox('Ingrese el factor W: ', '', '0,0');
+    w := StrToFloat(ingreso);
+    solucion := sistema.SOR(vectorX0, error, w);
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(solucion, btnSOR.Caption);
+  except
+    ShowMessage('Se ingresaron datos incorrectos.');
+  end;
+end;
+
+procedure TformSistemas.btnValidarClick(Sender: TObject);
+var
+  m: tMatriz;
+  v: tVector;
+begin
+
+  try
+    m := crearMatrizCoeficientes();
+    v := crearVectorIndependiente();
+
+    sistema.setMatriz(m); // Settear matriz de coeficientes del objeto sistema
+    sistema.setVindependiente(v); // Settear vector de terminos independientes del objeto sistema
+
+    SetLength(m, 0, 0);
+    SetLength(v, 0);
+
+    btnValidar.Enabled := false; // Desactivar boton validar
+    sgridSistema.Enabled := false; // Desactivar grid
+    edtIncognitas.Enabled := false; // Desactivar ingreso de numero de incognitas
+    lblInfoUsuario.Caption := 'Sistema valido, puede realizar los calculos que desee.';
+
+    // Activar operaciones
+    groupMetodosDirectos.Enabled := true;
+    groupMetodosIndirectos.Enabled := true;
+
+    // Settear cantidad de filas de vectorXO
+    if(sgridSistema.RowCount <> 3) then begin
+      sgridVectorX0.RowCount := sgridSistema.RowCount - 1
+    end else begin
+      sgridVectorX0.RowCount := 2;
+    end;
+
+    cargarVectorX0Default();
+
+  except
+    ShowMessage('Se ingresaron datos incorrectos.');
+  end;
+
+end;
+
+procedure TformSistemas.btnCholeskyClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.Gauss_Jordan(), btnCholesky.Caption);
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+end;
+
+procedure TformSistemas.btnGauss_JordanClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.Gauss_Jordan(), btnGauss_Jordan.Caption);
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+end;
+
+procedure TformSistemas.btnGauss_SeidelClick(Sender: TObject);
+var
+  vectorX0: tVector;
+  error: double;
+  solucion: tVector;
+begin
+  try
+    // Obtenemos los datos del vector inicial
+    vectorX0 := crearVectorX0();
+    // Obtenemos el error
+    error := StrToFloat(edtError.Text);
+    solucion := sistema.Gauss_Seidel(vectorX0, error);
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(solucion, btnGauss_Seidel.Caption);
+  except
+    ShowMessage('Se ingresaron datos incorrectos.');
+  end;
+end;
+
+procedure TformSistemas.btnJacobiClick(Sender: TObject);
+var
+  vectorX0: tVector;
+  error: double;
+  solucion: tVector;
+begin
+  try
+    // Obtenemos los datos del vector inicial
+    vectorX0 := crearVectorX0();
+    // Obtenemos el error
+    error := StrToFloat(edtError.Text);
+    solucion := sistema.Jacobi(vectorX0, error);
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(solucion, btnJacobi.Caption);
+  except
+    ShowMessage('Se ingresaron datos incorrectos.');
+  end;
+end;
+
+procedure TformSistemas.btnCroutClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.Crout(), btnCrout.Caption);
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+
+end;
+
+procedure TformSistemas.btnGaussPPClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.GaussPP(), 'Gauss con pivoteo parcial');
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+
+end;
+
+procedure TformSistemas.btnGaussPSClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.GaussPS(), 'Gauss con pivoteo simple');
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+end;
+
+procedure TformSistemas.btnGaussPTClick(Sender: TObject);
+begin
+  try
+    formResultados := TformResultados.Create(self);
+    formResultados.mostrarSolucion(sistema.GaussPT(), 'Gauss con pivoteo completo');
+  except
+    ShowMessage('El sistema no cumple con las condiciones para realizar la operacion.');
+  end;
+
+end;
+
+// Crear matriz de coeficientes leyendo la cantidad de filas y columnas del grid
+function TformSistemas.crearMatrizCoeficientes(): tMatriz;
+var
+  i, j, k: integer;
+  matriz: tMatriz;
+begin
+  SetLength(matriz, sgridSistema.RowCount - 1, sgridSistema.RowCount - 1);
+  i := 0;
+  // Obtenemos los datos del StringGrid
+  for k := 1 to sgridSistema.RowCount - 1 do begin
+    for j := 0 to sgridSistema.ColCount - 2 do begin
+      matriz[i, j] := StrToFloat(sgridSistema.Cells[j, k])
+    end;
+    i := i + 1;
+  end;
+  result := matriz;
+end;
+
+// Lee los valores que corresponden al vector de terminos independientes del sistema lineal
+function tformSistemas.crearVectorIndependiente(): tVector;
+var
+  j, k: integer;
+  vector: tVector;
+begin
+  SetLength(vector, sgridSistema.RowCount - 1);
+  k := 0;
+  // Recorro la columna de terminos independientes del StringGrid
+  for j := 1 to sgridSistema.RowCount - 1 do begin
+    vector[k] := StrToFloat(sgridSistema.Cells[sgridSistema.ColCount - 1, j]);
+    k := k + 1;
+  end;
+  result := vector;
+end;
+
+function tformSistemas.crearVectorX0(): tVector;
+var
+  j, k: integer;
+  vector: tVector;
+begin
+  SetLength(vector, sgridSistema.RowCount - 1);
+  k := 0;
+  // Recorro la columna del vector inicial X0
+  for j := 0 to sgridVectorX0.RowCount - 1 do begin
+    vector[k] := StrToFloat(sgridVectorX0.Cells[0, j]);
+  end;
+  result := vector;
+end;
+
+procedure TformSistemas.edtIncognitasChange(Sender: TObject);
+var
+  i: integer;
+  nroIncognitas: integer;
+begin
+
+  try
+    nroIncognitas := StrToInt(edtIncognitas.Text);
+    if((nroIncognitas = 1) or (nroIncognitas = 0)) then begin
+      nroIncognitas := 2;
+    end;
+  except
+    on Exception do begin
+      nroIncognitas := 2;
+    end;
+  end;
+
+  sgridSistema.RowCount := nroIncognitas + 1;
+  sgridSistema.ColCount := nroIncognitas + 1;
+
+  for i := 0 to nroIncognitas - 1 do begin
+    sgridSistema.Cells[i, 0] := 'X' + IntToStr(i + 1);
+  end;
+  sgridSistema.Cells[nroIncognitas, 0] := 'b';
+
+  cargarMatrizDefault();
+
+end;
+
+procedure TformSistemas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  sistema.Free();
+end;
+
+procedure TformSistemas.FormCreate(Sender: TObject);
+begin
+
+  sgridSistema.Cells[0, 0] := 'X1';
+  sgridSistema.Cells[1, 0] := 'X2';
+  sgridSistema.Cells[2, 0] := 'b';
+
+  cargarMatrizDefault();
+  cargarVectorX0Default();
+
+  sistema := tSistema.create();
+end;
+
+end.

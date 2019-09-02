@@ -1,0 +1,69 @@
+unit MyFunc;
+
+interface
+Uses Funcion, DiffExpress;
+
+Type
+    TFuncion = Class
+       private
+           fFormula : String;
+           fDerivada: String;
+           DerivFun : TDiffExpress;
+
+           procedure SetFormula(Const Valor : String);
+           procedure SetDerivada(Const Valor: String);
+
+       Public
+            Constructor Crear;
+            Destructor Listo;
+
+            Function F(x: Double): Double;
+            Function dF(x: Double): Double;
+
+            Property Formula: String read fFormula write SetFormula;
+            Property Derivada: String read fDerivada write SetDerivada;
+    End;
+
+implementation
+
+Constructor TFuncion.Crear;
+Begin
+    inherited Create;
+    fFormula := '';
+    fDerivada:= '';
+    DerivFun := TDiffExpress.Create;
+End;
+
+Destructor TFuncion.Listo;
+Begin
+    DerivFun.Free;
+End;
+
+
+Function TFuncion.F(x: Double): Double;
+Begin
+   Result := _f(fFormula, x);
+End;
+{----------------------------------------}
+Function TFuncion.F2(x,y: Double): Double;
+Begin
+   Result := _f2(fFormula,x,y);
+End;
+{----------------------------------------}
+Function TFuncion.dF(x: Double): Double;
+Begin
+   Result := _f(fDerivada, x);
+End;
+
+procedure TFuncion.SetFormula(Const Valor : String);
+Begin
+   fFormula := Valor;
+   Derivada := Valor;
+End;
+procedure TFuncion.SetDerivada(Const Valor: String);
+Begin
+   DerivFun.Formula := Valor;
+   fDerivada := DerivFun.diff('x');
+End;
+
+end.

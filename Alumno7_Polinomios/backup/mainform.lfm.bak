@@ -1,0 +1,610 @@
+object MainWindows: TMainWindows
+  Left = 1061
+  Height = 461
+  Top = 165
+  Width = 804
+  Caption = 'Polinomios'
+  ClientHeight = 440
+  ClientWidth = 804
+  Icon.Data = {
+    060E00000000010001002815000001002000F00D000016000000280000002800
+    00002A0000000100200000000000200D00006400000064000000000000000000
+    0000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008A8A8AFFCCCCCCFFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00747474FFE6E6E6FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF009E9E9EFF626262FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00E6E6E6FF222222FFFFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00B6B6B6FF404040FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00404040FF9E9E9EFFFFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00222222FFCCCCCCFFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00E6E6E6FF0C0C0CFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008A8A8AFF505050FFFFFF
+    FF00FFFFFF00404040FF161616FF000000FF040404FF404040FFE6E6E6FFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00747474FF404040FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00CCCC
+    CCFF404040FF747474FF747474FFE6E6E6FF404040FF747474FF747474FFE6E6
+    E6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000C0C0CFFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00040404FF222222FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00303030FF747474FFFFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+    9EFF000000FFCCCCCCFFB6B6B6FF161616FF505050FFFFFFFF00FFFFFF006262
+    62FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000C0C0CFFB6B6
+    B6FFFFFFFF00FFFFFF00FFFFFF00303030FF040404FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF000C0C0CFFB6B6B6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00CCCCCCFFFFFFFF00FFFFFF00161616FF404040FFFFFFFF00FFFFFF00E6E6
+    E6FF8A8A8AFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FF8A8A
+    8AFFFFFFFF00FFFFFF00FFFFFF00747474FF000000FFB6B6B6FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00040404FFCCCCCCFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00505050FF161616FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00404040FF6262
+    62FFFFFFFF00FFFFFF00FFFFFF00CCCCCCFF000000FF626262FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00000000FFE6E6E6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF009E9E9EFF000000FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00626262FF4040
+    40FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00040404FF222222FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00000000FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00E6E6E6FFFFFFFF00FFFFFF00FFFFFF00000000FF9E9E9EFFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00626262FF4040
+    40FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FF000000FF626262FF6262
+    62FF626262FF505050FF626262FFB6B6B6FFFFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00040404FFE6E6E6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00626262FFFFFFFF00FFFFFF00FFFFFF00161616FF505050FFFFFFFF00FFFF
+    FF00CCCCCCFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00505050FF5050
+    50FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00747474FF000000FFCCCCCCFFFFFF
+    FF00FFFFFF00FFFFFF00E6E6E6FF303030FF303030FFE6E6E6FFFFFFFF00FFFF
+    FF00FFFFFF00161616FFB6B6B6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00E6E6E6FF747474FFFFFFFF00FFFFFF00222222FF222222FFE6E6E6FF8A8A
+    8AFF000000FFE6E6E6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FF7474
+    74FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00CCCCCCFF000000FF747474FFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00222222FF222222FFFFFFFF00FFFF
+    FF00FFFFFF00222222FF8A8A8AFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00CCCCCCFF747474FF626262FF404040FFFFFFFF00626262FF7474
+    74FF303030FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00161616FF9E9E
+    9EFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00040404FF404040FFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E9EFF000000FF8A8A8AFFFFFF
+    FF00FFFFFF00747474FF404040FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000FFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00222222FF0C0C0CFFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E6E6E6FF000000FF303030FFFFFF
+    FF00FFFFFF00FFFFFF00161616FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E9EFF303030FFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00626262FF000000FFE6E6
+    E6FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000FF404040FFFFFF
+    FF00FFFFFF00FFFFFF00303030FFB6B6B6FFFFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FF9E9E9EFFFFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00B6B6B6FF000000FF8A8A
+    8AFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00747474FF000000FFCCCCCCFFFFFF
+    FF00FFFFFF00FFFFFF00CCCCCCFF303030FFFFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00CCCCCCFF303030FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00747474FF222222FF000000FF0C0C
+    0CFF404040FF404040FF404040FF303030FF222222FFB6B6B6FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF008A8A8AFF8A8A8AFFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00303030FFE6E6E6FFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00626262FFCCCCCCFFFFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00747474FFB6B6B6FFFFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000
+  }
+  Menu = MainMenu
+  LCLVersion = '1.4.4.0'
+  object PanelEvaluarP: TPanel
+    Left = 0
+    Height = 432
+    Top = 0
+    Width = 800
+    ClientHeight = 432
+    ClientWidth = 800
+    TabOrder = 0
+    Visible = False
+    object EditPolinomio: TEdit
+      Left = 16
+      Height = 27
+      Top = 48
+      Width = 568
+      TabOrder = 0
+    end
+    object ButtonEvaluarP: TButton
+      Left = 244
+      Height = 25
+      Top = 344
+      Width = 115
+      Caption = 'Evaluar'
+      OnClick = ButtonEvaluarPClick
+      TabOrder = 4
+    end
+    object LabelIngreseP: TLabel
+      Left = 15
+      Height = 15
+      Top = 24
+      Width = 412
+      Caption = 'Ingrese un Polinomio de la forma: P(x) = a(n)^(n)+a(n-1)x^(n-1)+...+a1x^1+a0'
+      ParentColor = False
+    end
+    object LabelPtoEvaluar: TLabel
+      Left = 15
+      Height = 15
+      Top = 152
+      Width = 184
+      Caption = 'Ingrese el valor de x a evaluar: P(x)'
+      ParentColor = False
+    end
+    object EditPtoEvaluar: TEdit
+      Left = 15
+      Height = 27
+      Top = 176
+      Width = 344
+      TabOrder = 2
+    end
+    object EditMostrarResult: TEdit
+      Left = 96
+      Height = 27
+      Top = 296
+      Width = 672
+      TabOrder = 3
+    end
+    object ButtonCancelarEvalP: TButton
+      Left = 376
+      Height = 25
+      Top = 344
+      Width = 124
+      Caption = 'Cancelar'
+      OnClick = ButtonCancelarEvalPClick
+      TabOrder = 6
+    end
+    object PanelEvaluarPInfo: TPanel
+      Left = 16
+      Height = 112
+      Top = 224
+      Width = 776
+      BorderStyle = bsSingle
+      ClientHeight = 110
+      ClientWidth = 774
+      Color = clGray
+      ParentColor = False
+      TabOrder = 5
+      object LabelP: TLabel
+        Left = 8
+        Height = 15
+        Top = 16
+        Width = 34
+        Caption = 'P(x) = '
+        ParentColor = False
+      end
+      object LabelMuestraP: TLabel
+        Left = 48
+        Height = 1
+        Top = 16
+        Width = 1
+        ParentColor = False
+      end
+      object LabelGrado: TLabel
+        Left = 8
+        Height = 15
+        Top = 48
+        Width = 50
+        Caption = 'Gr P(x) = '
+        ParentColor = False
+      end
+      object LabelMuestraGr: TLabel
+        Left = 64
+        Height = 1
+        Top = 46
+        Width = 1
+        ParentColor = False
+      end
+      object LabelResult: TLabel
+        Left = 8
+        Height = 15
+        Top = 80
+        Width = 65
+        Caption = 'Resultado = '
+        ParentColor = False
+      end
+    end
+    object LabelIngGrado: TLabel
+      Left = 15
+      Height = 15
+      Top = 88
+      Width = 90
+      Caption = 'Ingrese el Grado:'
+      ParentColor = False
+    end
+    object EditGr: TEdit
+      Left = 15
+      Height = 27
+      Top = 112
+      Width = 177
+      TabOrder = 1
+    end
+  end
+  object PanelDivPGr1: TPanel
+    Left = 0
+    Height = 433
+    Top = 0
+    Width = 800
+    ClientHeight = 433
+    ClientWidth = 800
+    TabOrder = 1
+    Visible = False
+    object LabelIngresePx: TLabel
+      Left = 19
+      Height = 15
+      Top = 23
+      Width = 355
+      Caption = 'Ingrese el Polinomio P(x) = a(n)x^(n)+a(n-1)x^(n-1)+ ... + a1x^1+a0'
+      ParentColor = False
+    end
+    object EditPolinomioP: TEdit
+      Left = 19
+      Height = 27
+      Top = 56
+      Width = 709
+      TabOrder = 0
+    end
+    object LabelIngreseQ: TLabel
+      Left = 19
+      Height = 15
+      Top = 184
+      Width = 200
+      Caption = 'Ingrese el Polinomio Q(x) = a1x^1+a0'
+      ParentColor = False
+    end
+    object EditPolinomioQ: TEdit
+      Left = 19
+      Height = 27
+      Top = 215
+      Width = 336
+      TabOrder = 2
+    end
+    object LabelGradoP: TLabel
+      Left = 19
+      Height = 15
+      Top = 104
+      Width = 136
+      Caption = 'Ingrese el Grado de P(x) : '
+      ParentColor = False
+    end
+    object EditGradoP: TEdit
+      Left = 19
+      Height = 27
+      Top = 136
+      Width = 248
+      TabOrder = 1
+    end
+    object PanelResolverDiv1: TPanel
+      Left = 19
+      Height = 102
+      Top = 264
+      Width = 717
+      ClientHeight = 102
+      ClientWidth = 717
+      Color = clGray
+      ParentColor = False
+      TabOrder = 3
+      Visible = False
+      object LabelPx: TLabel
+        Left = 8
+        Height = 15
+        Top = 8
+        Width = 37
+        Caption = 'P (x) = '
+        ParentColor = False
+      end
+      object LabelCx: TLabel
+        Left = 8
+        Height = 15
+        Top = 40
+        Width = 37
+        Caption = 'C (x) = '
+        ParentColor = False
+      end
+      object Label1: TLabel
+        Left = 8
+        Height = 15
+        Top = 72
+        Width = 37
+        Caption = 'R (x) = '
+        ParentColor = False
+      end
+      object LabelMostrarPx: TLabel
+        Left = 56
+        Height = 1
+        Top = 8
+        Width = 1
+        ParentColor = False
+      end
+      object LabelMostrarCx: TLabel
+        Left = 56
+        Height = 1
+        Top = 40
+        Width = 1
+        ParentColor = False
+      end
+      object LabelMostrarRx: TLabel
+        Left = 56
+        Height = 1
+        Top = 72
+        Width = 1
+        ParentColor = False
+      end
+    end
+    object ButtonResolverDiv1: TButton
+      Left = 200
+      Height = 25
+      Top = 384
+      Width = 131
+      Caption = 'Resolver'
+      OnClick = ButtonResolverDiv1Click
+      TabOrder = 4
+    end
+    object ButtonCancelDiv1: TButton
+      Left = 360
+      Height = 25
+      Top = 384
+      Width = 144
+      Caption = 'Cancelar'
+      OnClick = ButtonCancelDiv1Click
+      TabOrder = 5
+    end
+  end
+  object PanelHornerCuad: TPanel
+    Left = -6
+    Height = 439
+    Top = -8
+    Width = 806
+    ClientHeight = 439
+    ClientWidth = 806
+    TabOrder = 2
+    Visible = False
+    object LabelIngPHCuad: TLabel
+      Left = 19
+      Height = 15
+      Top = 27
+      Width = 466
+      Caption = 'Ingrese un Polinomio de la forma: P(x) = a(n)x^(n)+a(n-1)x^(n-1)+ ... + a2x^2+a1x^1+a0'
+      ParentColor = False
+    end
+    object EditPxHCuad: TEdit
+      Left = 19
+      Height = 27
+      Top = 56
+      Width = 746
+      TabOrder = 0
+    end
+    object LabelFormCuad: TLabel
+      Left = 20
+      Height = 15
+      Top = 160
+      Width = 297
+      Caption = 'Ingrese la Formula Cuadratica de la forma:  x^2+ax^1+b'
+      ParentColor = False
+    end
+    object EditFormCuad: TEdit
+      Left = 19
+      Height = 27
+      Top = 184
+      Width = 503
+      TabOrder = 2
+    end
+    object LabelGrPHC: TLabel
+      Left = 19
+      Height = 15
+      Top = 96
+      Width = 194
+      Caption = 'Ingrese el Grado del Polinomio P(x) :'
+      ParentColor = False
+    end
+    object EditGrPHC: TEdit
+      Left = 19
+      Height = 27
+      Top = 120
+      Width = 248
+      TabOrder = 1
+    end
+    object PanelMuestraHC: TPanel
+      Left = 20
+      Height = 124
+      Top = 232
+      Width = 766
+      ClientHeight = 124
+      ClientWidth = 766
+      Color = clGray
+      ParentColor = False
+      TabOrder = 3
+      Visible = False
+      object LabelPxHC: TLabel
+        Left = 11
+        Height = 15
+        Top = 23
+        Width = 37
+        Caption = 'P (x) = '
+        ParentColor = False
+      end
+      object LabelCxHC: TLabel
+        Left = 11
+        Height = 15
+        Top = 56
+        Width = 37
+        Caption = 'C (x) = '
+        ParentColor = False
+      end
+      object LabelRxHC: TLabel
+        Left = 11
+        Height = 15
+        Top = 88
+        Width = 37
+        Caption = 'R (x) = '
+        ParentColor = False
+      end
+      object LabelMuestraPxHC: TLabel
+        Left = 59
+        Height = 15
+        Top = 23
+        Width = 79
+        Caption = 'Polinomio P(x)'
+        ParentColor = False
+      end
+      object LabelMuestraCxHC: TLabel
+        Left = 59
+        Height = 15
+        Top = 56
+        Width = 70
+        Caption = 'Cociente C(x)'
+        ParentColor = False
+      end
+      object LabelMuestraRxHC: TLabel
+        Left = 59
+        Height = 15
+        Top = 88
+        Width = 53
+        Caption = 'Resto R(x)'
+        ParentColor = False
+      end
+    end
+    object ButtonResolverHC: TButton
+      Left = 192
+      Height = 33
+      Top = 368
+      Width = 158
+      Caption = 'Resolver'
+      OnClick = ButtonResolverHCClick
+      TabOrder = 4
+    end
+    object ButtonCancelarHC: TButton
+      Left = 376
+      Height = 33
+      Top = 368
+      Width = 149
+      Caption = 'Cancelar'
+      OnClick = ButtonCancelarHCClick
+      TabOrder = 5
+    end
+  end
+  object PanelRaicesReales: TPanel
+    Left = 0
+    Height = 453
+    Top = -10
+    Width = 813
+    ClientHeight = 453
+    ClientWidth = 813
+    TabOrder = 3
+    Visible = False
+    object LabelIngresePRR: TLabel
+      Left = 16
+      Height = 15
+      Top = 24
+      Width = 97
+      Caption = 'Ingrese Polinomio'
+      ParentColor = False
+    end
+    object EditPxRR: TEdit
+      Left = 16
+      Height = 27
+      Top = 56
+      Width = 656
+      TabOrder = 0
+    end
+    object LabelMuestraRaices: TLabel
+      Left = 26
+      Height = 15
+      Top = 184
+      Width = 114
+      Caption = 'Mostrar Raices Reales'
+      ParentColor = False
+    end
+    object Button1: TButton
+      Left = 44
+      Height = 25
+      Top = 222
+      Width = 75
+      Caption = 'Calcular'
+      OnClick = Button1Click
+      TabOrder = 1
+    end
+    object EditGradoPRR: TEdit
+      Left = 16
+      Height = 27
+      Top = 88
+      Width = 200
+      TabOrder = 2
+    end
+  end
+  object MainMenu: TMainMenu
+    ParentBidiMode = False
+    left = 760
+    top = 16
+    object MenuArchivo: TMenuItem
+      Caption = '&Archivo'
+      object MenuItemCalcularP: TMenuItem
+        Caption = '&Calcular valor de un Polinomio'
+        ShortCut = 16449
+        OnClick = MenuItemCalcularPClick
+      end
+      object MenuItemDivPGr1: TMenuItem
+        Caption = '&Dividir un Polinomio por otro de Grado 1'
+        ShortCut = 16452
+        OnClick = MenuItemDivPGr1Click
+      end
+      object MenuItemHornerCuad: TMenuItem
+        Caption = '&Dividir un Polinomio de Grado n por x^2+ax^1+b'
+        ShortCut = 16454
+        OnClick = MenuItemHornerCuadClick
+      end
+      object MenuItemCalcularRaices: TMenuItem
+        Caption = '&Calcular Raices Reales'
+        OnClick = MenuItemCalcularRaicesClick
+      end
+      object MenuItemSalir: TMenuItem
+        Caption = '&Salir'
+        ShortCut = 16472
+        OnClick = MenuItemSalirClick
+      end
+    end
+    object MenuAcciones: TMenuItem
+      Caption = 'Acciones'
+    end
+    object MenuAyuda: TMenuItem
+      Caption = 'Ayuda'
+      object MenuItemAbout: TMenuItem
+        Caption = 'Sobre de'
+        OnClick = MenuItemAboutClick
+      end
+    end
+  end
+end

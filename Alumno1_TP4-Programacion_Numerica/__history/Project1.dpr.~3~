@@ -1,0 +1,15 @@
+program Project1;
+
+uses
+  Forms,
+  uInterfazSistemas in 'uInterfazSistemas.pas' {formSistemas},
+  uSistemasLineales in 'uSistemasLineales.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TformSistemas, formSistemas);
+  Application.Run;
+end.
